@@ -1,34 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+"use client"
 
-function App() {
-  const [count, setCount] = useState(0)
+import { useState } from "react"
+import { ThemeProvider } from "./contexts/theme-context"
+import NavigationHeader from "./components/navigation-header"
+import LeftSidebar from "./components/left-sidebar"
+import SocialFeed from "./components/social-feed"
+import SearchPage from "./components/search-page"
+import ExplorePage from "./components/explore-page"
+import MessagesPage from "./components/messages-page"
+import SettingsPage from "./components/settings-page"
+import ProfilePage from "./components/profile-page"
+import SuggestionsSidebar from "./components/suggestions-sidebar"
+import { postsData } from "./data/posts"
+import { suggestionsData } from "./data/suggestions"
+
+function AppContent() {
+  const [currentPage, setCurrentPage] = useState("home")
+
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case "search":
+        return <SearchPage />
+      case "explore":
+        return <ExplorePage />
+      case "messages":
+        return <MessagesPage />
+      case "settings":
+        return <SettingsPage />
+      case "profile":
+        return <ProfilePage />
+      default:
+        return <SocialFeed posts={postsData} />
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
+      <NavigationHeader />
+      <LeftSidebar onPageChange={setCurrentPage} />
+      {renderCurrentPage()}
+      {currentPage === "home" && <SuggestionsSidebar suggestions={suggestionsData} />}
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 

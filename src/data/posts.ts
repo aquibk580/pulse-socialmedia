@@ -1,0 +1,87 @@
+import type { Post } from "../types/post"
+
+export const postsData: Post[] = [
+  {
+    id: "1",
+    user: {
+      username: "Selena_gomez",
+      avatar: "/placeholder.svg?height=40&width=40",
+      isVerified: true,
+    },
+    content: "Serenity blooms in silence—like this lotus, rising pure amidst the still waters.",
+    images: [
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-faotnEdKGJTdPDArTqZlKKtJVBV0hn.png",
+      "/placeholder.svg?height=400&width=400",
+      "/placeholder.svg?height=400&width=400",
+    ],
+    timestamp: "1 hr ago",
+    isFollowing: false,
+    likes: 1247,
+    comments: 89,
+    shares: 23,
+  },
+  {
+    id: "2",
+    user: {
+      username: "nature_photographer",
+      avatar: "/placeholder.svg?height=40&width=40",
+      isVerified: false,
+    },
+    content: "Golden hour magic at the mountains. Sometimes the best moments happen when you least expect them. 🌅",
+    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
+    timestamp: "3 hrs ago",
+    isFollowing: true,
+    likes: 892,
+    comments: 45,
+    shares: 12,
+  },
+  {
+    id: "3",
+    user: {
+      username: "mindful_moments",
+      avatar: "/placeholder.svg?height=40&width=40",
+      isVerified: false,
+    },
+    content: "Take a deep breath. You are exactly where you need to be. Trust the process and embrace the journey. ✨",
+    timestamp: "5 hrs ago",
+    isFollowing: false,
+    likes: 2156,
+    comments: 134,
+    shares: 67,
+  },
+  {
+    id: "4",
+    user: {
+      username: "travel_diaries",
+      avatar: "/placeholder.svg?height=40&width=40",
+      isVerified: true,
+    },
+    content: "Lost in the beauty of Santorini. Every corner tells a story, every sunset paints a memory. 🇬🇷",
+    images: [
+      "/placeholder.svg?height=350&width=400",
+      "/placeholder.svg?height=350&width=400",
+      "/placeholder.svg?height=350&width=400",
+      "/placeholder.svg?height=350&width=400",
+    ],
+    timestamp: "8 hrs ago",
+    isFollowing: false,
+    likes: 3421,
+    comments: 278,
+    shares: 156,
+  },
+  {
+    id: "5",
+    user: {
+      username: "coffee_chronicles",
+      avatar: "/placeholder.svg?height=40&width=40",
+      isVerified: false,
+    },
+    content: "Monday motivation starts with the perfect cup. What's your go-to morning ritual? ☕",
+    images: ["/placeholder.svg?height=300&width=400"],
+    timestamp: "12 hrs ago",
+    isFollowing: true,
+    likes: 567,
+    comments: 89,
+    shares: 34,
+  },
+]
