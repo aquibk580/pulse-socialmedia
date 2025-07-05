@@ -1,7 +1,7 @@
 "use client"
 
-import { Search, Phone, Video, Info, Send, Smile, ImageIcon, Mic, Settings } from "lucide-react"
-import { useState } from "react"
+import { Search, Phone, Video, Info, Send, Smile, Image, Mic, Settings } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
 import { Card } from "./ui/card"
 import { cn } from "../lib/utils"
 
@@ -33,8 +33,9 @@ interface Message {
 }
 
 export default function MessagesPage() {
-  const [selectedConversation, setSelectedConversation] = useState<number | null>(1)
+  const [selectedConversation, setSelectedConversation] = useState<number | null>(null)
   const [newMessage, setNewMessage] = useState("")
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const conversations: Conversation[] = [
     {
@@ -153,6 +154,20 @@ export default function MessagesPage() {
 
   const selectedConv = conversations.find((c) => c.id === selectedConversation)
 
+  // Auto-select first conversation on load
+  useEffect(() => {
+    if (conversations.length > 0) {
+      setSelectedConversation(conversations[0].id)
+    }
+  }, [])
+
+  // Scroll to bottom when conversation changes or new message
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [selectedConversation, messages.length])
+
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       // Add message logic here
@@ -161,12 +176,12 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="flex-1 pt-16">
-      <div className="h-screen flex bg-background">
+    <div className="fixed inset-0 pt-16 bg-background">
+      <div className="h-full flex">
         {/* Conversations List */}
         <div className="w-full md:w-80 lg:w-96 bg-card/50 backdrop-blur-sm border-r border-border flex flex-col md:ml-64">
           {/* Messages Header */}
-          <div className="p-6 border-b border-border/50 bg-card/80 backdrop-blur-sm">
+          <div className="p-6 border-b border-border/50 bg-card/80 backdrop-blur-sm flex-shrink-0">
             <div className="flex items-center justify-between mb-4">
               <h1 className="text-2xl font-bold text-foreground">Messages</h1>
               <button className="p-2 hover:bg-muted rounded-full transition-colors">
@@ -184,7 +199,7 @@ export default function MessagesPage() {
           </div>
 
           {/* Conversations */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto min-h-0">
             {conversations.map((conversation) => (
               <div
                 key={conversation.id}
@@ -235,9 +250,9 @@ export default function MessagesPage() {
 
         {/* Chat Area */}
         {selectedConv ? (
-          <div className="hidden md:flex flex-1 flex-col bg-background">
+          <div className="hidden md:flex flex-1 flex-col bg-background min-w-0">
             {/* Chat Header */}
-            <div className="p-6 border-b border-border/50 flex items-center justify-between bg-card/50 backdrop-blur-sm">
+            <div className="p-6 border-b border-border/50 flex items-center justify-between bg-card/50 backdrop-blur-sm flex-shrink-0">
               <div className="flex items-center space-x-4">
                 <div className="relative">
                   <img
@@ -270,7 +285,7 @@ export default function MessagesPage() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-background to-muted/10">
+            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-background to-muted/10 min-h-0">
               {messages.map((message) => (
                 <div key={message.id} className={cn("flex", message.isFromMe ? "justify-end" : "justify-start")}>
                   <div
@@ -301,13 +316,14 @@ export default function MessagesPage() {
                   </div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
 
             {/* Message Input */}
-            <div className="p-6 border-t border-border/50 bg-card/50 backdrop-blur-sm">
+            <div className="p-6 border-t border-border/50 bg-card/50 backdrop-blur-sm flex-shrink-0">
               <div className="flex items-center space-x-3">
                 <button className="p-3 hover:bg-muted rounded-full transition-colors">
-                  <ImageIcon className="w-5 h-5 text-muted-foreground" />
+                  <Image className="w-5 h-5 text-muted-foreground" />
                 </button>
                 <div className="flex-1 relative">
                   <input
