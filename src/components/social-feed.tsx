@@ -24,11 +24,11 @@ export default function SocialFeed({ posts }: SocialFeedProps) {
   }
 
   return (
-    <div className="flex-1 pt-20 pb-20 md:pb-8">
+    <div className=" pt-20 pb-20 md:pb-8">
       <div className="w-full px-4">
-        <div className="md:ml-64 lg:mr-80 max-w-2xl mx-auto">
-          {/* Stories Section */}
           <StoriesSection />
+        <div className="md:ml-64 max-w-2xl mx-auto">
+          {/* Stories Section */}
 
           {/* Posts Feed */}
           {posts.map((post) => (

@@ -13,6 +13,7 @@ import ProfilePage from "./components/profile-page"
 import SuggestionsSidebar from "./components/suggestions-sidebar"
 import { postsData } from "./data/posts"
 import { suggestionsData } from "./data/suggestions"
+import Home from "./components/home"
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState("home")
@@ -30,7 +31,8 @@ function AppContent() {
       case "profile":
         return <ProfilePage />
       default:
-        return <SocialFeed posts={postsData} />
+        // return <SocialFeed posts={postsData} />
+        return <Home/>
     }
   }
 
@@ -39,7 +41,7 @@ function AppContent() {
       <NavigationHeader />
       <LeftSidebar onPageChange={setCurrentPage} />
       {renderCurrentPage()}
-      {currentPage === "home" && <SuggestionsSidebar suggestions={suggestionsData} />}
+      {/* {currentPage === "home" && <SuggestionsSidebar suggestions={suggestionsData} />} */}
     </div>
   )
 }

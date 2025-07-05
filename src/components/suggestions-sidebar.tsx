@@ -34,30 +34,8 @@ export default function SuggestionsSidebar({ suggestions }: SuggestionsSidebarPr
   ]
 
   return (
-    <div className="hidden lg:block w-96 bg-background/95 backdrop-blur-sm border-l border-border h-screen fixed right-0 top-16 z-30 overflow-y-auto">
+    <div className="hidden lg:block w-fit bg-background/95 backdrop-blur-sm border-l border-border h-screen fixed right-0 top-16 z-30 overflow-y-auto">
       <div className="p-6 space-y-6">
-        {/* Stories Section */}
-        {/* <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg">Stories</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <div className="flex space-x-3 overflow-x-auto pb-2">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-foreground to-muted-foreground p-0.5">
-                    <img
-                      src={`/placeholder.svg?height=60&width=60`}
-                      alt={`Story ${i}`}
-                      className="w-full h-full rounded-full object-cover border-2 border-background"
-                    />
-                  </div>
-                  <p className="text-xs text-center mt-1 text-muted-foreground">User {i}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card> */}
 
         {/* Suggestions */}
         <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">

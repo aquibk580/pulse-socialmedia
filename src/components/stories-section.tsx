@@ -69,10 +69,10 @@ export default function StoriesSection() {
   ]
 
   return (
-    <div className="mb-6">
-      <div className="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
+    <div className="mb-6 md:ml-64 ">
+      <div className="flex space-x-3 overflow-x-auto mx-auto scrollbar-hide pb-2">
         {stories.map((story) => (
-          <div key={story.id} className="flex-shrink-0">
+          <div key={story.id} className="flex-shrink-0 m-1 gap-1">
             <div
               className={`relative w-20 h-28 rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 ${
                 story.isViewed ? "ring-2 ring-muted-foreground/30" : "ring-2 ring-foreground"
