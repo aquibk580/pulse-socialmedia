@@ -3,7 +3,6 @@
 import { Home, Search, Settings, User, Compass, MessageCircle } from "lucide-react"
 import { useState } from "react"
 import { cn } from "../lib/utils"
-import { Button } from "./ui/button"
 
 interface LeftSidebarProps {
   className?: string
@@ -42,10 +41,10 @@ export default function LeftSidebar({ className = "", onPageChange }: LeftSideba
                     <button
                       onClick={() => handleItemClick(item.id)}
                       className={cn(
-                        "flex items-center space-x-4 w-full p-4 rounded-xl transition-all duration-200 border-amber-950 border-8",
+                        "flex items-center space-x-4 w-full p-4 rounded-xl transition-all duration-200",
                         activeItem === item.id
-                          ? " text-black shadow-lg scale-105 "
-                          : "text-white bg-white hover:text-foreground hover:bg-muted/50",
+                          ? "bg-foreground text-background shadow-lg scale-105"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                       )}
                     >
                       <Icon className="w-6 h-6" />
@@ -70,7 +69,7 @@ export default function LeftSidebar({ className = "", onPageChange }: LeftSideba
                 onClick={() => handleItemClick(item.id)}
                 className={cn(
                   "flex flex-col items-center p-3 transition-all duration-200",
-                  activeItem === item.id ? "text-primary scale-110" : "text-muted-foreground hover:text-foreground",
+                  activeItem === item.id ? "text-foreground scale-110" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 <Icon className="w-6 h-6" />

@@ -47,7 +47,7 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
             <img
               src={post.user.avatar || "/placeholder.svg"}
               alt={`${post.user.username} profile`}
-              className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/10"
+              className="w-12 h-12 rounded-full object-cover ring-2 ring-muted/20"
             />
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-background rounded-full"></div>
           </div>
@@ -55,8 +55,8 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
             <div className="flex items-center space-x-2">
               <h3 className="font-semibold text-foreground">{post.user.username}</h3>
               {post.user.isVerified && (
-                <div className="w-4 h-4 bg-primary rounded-full flex items-center justify-center">
-                  <Check className="w-2.5 h-2.5 text-primary-foreground" />
+                <div className="w-4 h-4 bg-foreground rounded-full flex items-center justify-center">
+                  <Check className="w-2.5 h-2.5 text-background" />
                 </div>
               )}
             </div>
@@ -70,7 +70,7 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
               "flex items-center space-x-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
               isFollowing
                 ? "bg-muted text-muted-foreground hover:bg-muted/80"
-                : "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg",
+                : "bg-foreground text-background hover:bg-foreground/90 shadow-md hover:shadow-lg",
             )}
           >
             {isFollowing ? (
@@ -107,7 +107,7 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
               onClick={handleLike}
               className={cn(
                 "flex items-center space-x-2 transition-all duration-200 hover:scale-105",
-                isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-500",
+                isLiked ? "text-red-500" : "text-muted-foreground hover:text-foreground",
               )}
             >
               <Heart className={cn("w-5 h-5", isLiked && "fill-current")} />
@@ -115,14 +115,14 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
             </button>
             <button
               onClick={() => onComment?.(post.id)}
-              className="flex items-center space-x-2 text-muted-foreground hover:text-blue-500 transition-all duration-200 hover:scale-105"
+              className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-105"
             >
               <MessageCircle className="w-5 h-5" />
               <span className="text-sm font-medium">{formatNumber(post.comments)}</span>
             </button>
             <button
               onClick={() => onShare?.(post.id)}
-              className="flex items-center space-x-2 text-muted-foreground hover:text-green-500 transition-all duration-200 hover:scale-105"
+              className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-105"
             >
               <Share className="w-5 h-5" />
               <span className="text-sm font-medium">{formatNumber(post.shares)}</span>

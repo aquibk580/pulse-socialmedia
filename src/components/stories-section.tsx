@@ -75,7 +75,7 @@ export default function StoriesSection() {
           <div key={story.id} className="flex-shrink-0">
             <div
               className={`relative w-20 h-28 rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 ${
-                story.isViewed ? "ring-2 ring-muted" : "ring-2 ring-primary"
+                story.isViewed ? "ring-2 ring-muted-foreground/30" : "ring-2 ring-foreground"
               }`}
               style={{
                 backgroundImage: `url(${story.storyImage})`,

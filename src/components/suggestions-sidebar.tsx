@@ -25,19 +25,19 @@ export default function SuggestionsSidebar({ suggestions }: SuggestionsSidebarPr
   }
 
   const categories = [
-    { name: "Photography", color: "bg-gradient-to-br from-purple-400 to-pink-400", icon: "📸" },
-    { name: "Travel", color: "bg-gradient-to-br from-blue-400 to-cyan-400", icon: "✈️" },
-    { name: "Food", color: "bg-gradient-to-br from-orange-400 to-red-400", icon: "🍕" },
-    { name: "Tech", color: "bg-gradient-to-br from-green-400 to-blue-400", icon: "💻" },
-    { name: "Music", color: "bg-gradient-to-br from-pink-400 to-purple-400", icon: "🎵" },
-    { name: "Art", color: "bg-gradient-to-br from-yellow-400 to-orange-400", icon: "🎨" },
+    { name: "Photography", icon: "📸" },
+    { name: "Travel", icon: "✈️" },
+    { name: "Food", icon: "🍕" },
+    { name: "Tech", icon: "💻" },
+    { name: "Music", icon: "🎵" },
+    { name: "Art", icon: "🎨" },
   ]
 
   return (
-    <div className="hidden lg:block w-80 bg-background/95 backdrop-blur-sm border-l border-border h-screen fixed right-0 top-16 z-30 overflow-y-auto">
+    <div className="hidden lg:block w-96 bg-background/95 backdrop-blur-sm border-l border-border h-screen fixed right-0 top-16 z-30 overflow-y-auto">
       <div className="p-6 space-y-6">
         {/* Stories Section */}
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
+        {/* <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Stories</CardTitle>
           </CardHeader>
@@ -45,7 +45,7 @@ export default function SuggestionsSidebar({ suggestions }: SuggestionsSidebarPr
             <div className="flex space-x-3 overflow-x-auto pb-2">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/60 p-0.5">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-foreground to-muted-foreground p-0.5">
                     <img
                       src={`/placeholder.svg?height=60&width=60`}
                       alt={`Story ${i}`}
@@ -57,7 +57,7 @@ export default function SuggestionsSidebar({ suggestions }: SuggestionsSidebarPr
               ))}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Suggestions */}
         <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
@@ -72,7 +72,7 @@ export default function SuggestionsSidebar({ suggestions }: SuggestionsSidebarPr
                     <img
                       src={suggestion.avatar || "/placeholder.svg"}
                       alt={`${suggestion.fullName} profile`}
-                      className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/10"
+                      className="w-10 h-10 rounded-full object-cover ring-2 ring-muted/20"
                     />
                     <div>
                       <h3 className="font-semibold text-foreground text-sm">{suggestion.fullName}</h3>
@@ -88,7 +88,7 @@ export default function SuggestionsSidebar({ suggestions }: SuggestionsSidebarPr
                       "px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-200",
                       followedUsers.has(suggestion.id)
                         ? "bg-muted text-muted-foreground hover:bg-muted/80"
-                        : "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg",
+                        : "bg-foreground text-background hover:bg-foreground/90 shadow-md hover:shadow-lg",
                     )}
                   >
                     {followedUsers.has(suggestion.id) ? "Following" : "Follow"}
@@ -109,13 +109,10 @@ export default function SuggestionsSidebar({ suggestions }: SuggestionsSidebarPr
               {categories.map((category, index) => (
                 <div
                   key={index}
-                  className={cn(
-                    "p-4 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg",
-                    category.color,
-                  )}
+                  className="p-4 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg bg-muted hover:bg-muted/80"
                 >
                   <div className="text-2xl mb-2">{category.icon}</div>
-                  <p className="text-sm font-medium text-white">{category.name}</p>
+                  <p className="text-sm font-medium text-foreground">{category.name}</p>
                 </div>
               ))}
             </div>

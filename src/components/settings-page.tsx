@@ -20,26 +20,13 @@ import {
   Sun,
   ChevronRight,
   Palette,
-  Check,
 } from "lucide-react"
 import { useTheme } from "../contexts/theme-context"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { cn } from "../lib/utils"
 
 export default function SettingsPage() {
-  const { theme, themeColor, toggleTheme, setThemeColor } = useTheme()
-
-  const themeColors = [
-    { name: "Default", value: "default" as const, color: "bg-slate-500" },
-    { name: "Purple", value: "purple" as const, color: "bg-purple-500" },
-    { name: "Blue", value: "blue" as const, color: "bg-blue-500" },
-    { name: "Green", value: "green" as const, color: "bg-green-500" },
-    { name: "Orange", value: "orange" as const, color: "bg-orange-500" },
-    { name: "Pink", value: "pink" as const, color: "bg-pink-500" },
-    { name: "Red", value: "red" as const, color: "bg-red-500" },
-    { name: "Yellow", value: "yellow" as const, color: "bg-yellow-500" },
-    { name: "Cyan", value: "cyan" as const, color: "bg-cyan-500" },
-  ]
+  const { theme, toggleTheme } = useTheme()
 
   const settingsSections = [
     {
@@ -117,7 +104,7 @@ export default function SettingsPage() {
                   onClick={toggleTheme}
                   className={cn(
                     "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
-                    theme === "dark" ? "bg-primary" : "bg-muted",
+                    theme === "dark" ? "bg-foreground" : "bg-muted",
                   )}
                 >
                   <span
@@ -127,34 +114,6 @@ export default function SettingsPage() {
                     )}
                   />
                 </button>
-              </div>
-
-              {/* Theme Colors */}
-              <div>
-                <h3 className="font-medium text-foreground mb-3">Theme Color</h3>
-                <p className="text-sm text-muted-foreground mb-4">Choose your preferred accent color</p>
-                <div className="grid grid-cols-3 gap-3">
-                  {themeColors.map((color) => (
-                    <button
-                      key={color.value}
-                      onClick={() => setThemeColor(color.value)}
-                      className={cn(
-                        "relative flex flex-col items-center p-3 rounded-xl border-2 transition-all duration-200 hover:scale-105",
-                        themeColor === color.value
-                          ? "border-primary bg-primary/10"
-                          : "border-border hover:border-muted-foreground/50",
-                      )}
-                    >
-                      <div className={cn("w-8 h-8 rounded-full mb-2 shadow-md", color.color)} />
-                      <span className="text-xs font-medium text-foreground">{color.name}</span>
-                      {themeColor === color.value && (
-                        <div className="absolute top-1 right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
-                          <Check className="w-2.5 h-2.5 text-primary-foreground" />
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
               </div>
             </CardContent>
           </Card>
