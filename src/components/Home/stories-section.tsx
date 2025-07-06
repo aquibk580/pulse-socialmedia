@@ -66,10 +66,42 @@ export default function StoriesSection() {
       storyImage: "/placeholder.svg?height=120&width=90",
       isViewed: false,
     },
+    // {
+    //   id: "9",
+    //   username: "john_doe",
+    //   avatar: "/placeholder.svg?height=32&width=32",
+    //   storyImage: "/placeholder.svg?height=120&width=90",
+    //   isViewed: true,
+    // },
+    // {
+    //   id: "10",
+    //   username: "jane_doe",
+    //   avatar: "/placeholder.svg?height=32&width=32",
+    //   storyImage: "/placeholder.svg?height=120&width=90",
+    //   isViewed: false,
+    // },
+    // { id: "11",
+    //   username: "mark_smith",
+    //   avatar: "/placeholder.svg?height=32&width=32",
+    //   storyImage: "/placeholder.svg?height=120&width=90",
+    //   isViewed: true,
+    // },
+    // { id: "12",
+    //   username: "lucy_brown",
+    //   avatar: "/placeholder.svg?height=32&width=32",
+    //   storyImage: "/placeholder.svg?height=120&width=90",
+    //   isViewed: false,
+    // },
+    // { id: "13",
+    //   username: "david_jones",
+    //   avatar: "/placeholder.svg?height=32&width=32",
+    //   storyImage: "/placeholder.svg?height=120&width=90",
+    //   isViewed: true,
+    // },
   ]
 
   return (
-    <div className="mb-6 md:ml-64 ">
+    <div className="mb-6  ">
       <div className="flex space-x-3 overflow-x-auto mx-auto scrollbar-hide pb-2">
         {stories.map((story) => (
           <div key={story.id} className="flex-shrink-0 m-1 gap-1">

@@ -22,7 +22,7 @@ import {
   Palette,
 } from "lucide-react"
 import { useTheme } from "../contexts/theme-context"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { cn } from "../lib/utils"
 
 export default function SettingsPage() {

@@ -30,7 +30,7 @@ export default function NavigationHeader() {
             <div className="flex-1"></div>
 
             {/* Right - Navigation Icons */}
-            <div className="flex items-center space-x-2 md:space-x-4 pr-4 lg:pr-80">
+            <div className="flex items-center space-x-2 md:space-x-4 pr-4 ">
               {/* Mobile Suggestions Icon */}
               <button
                 onClick={() => setShowSuggestions(!showSuggestions)}
@@ -39,28 +39,16 @@ export default function NavigationHeader() {
                 <Users className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </button>
 
-              <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors relative">
-                <Send className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-              </button>
-
               <button
-                onClick={() => setShowActivity(true)}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors relative"
+                onClick={() => setShowActivity(true)}
               >
-                <Heart className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                <Bell className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 {notifications > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {notifications}
                   </span>
                 )}
-              </button>
-
-              <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors relative">
-                <Bell className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-              </button>
-
-              <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-                <User className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </button>
             </div>
           </div>
