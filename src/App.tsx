@@ -11,6 +11,7 @@ import SettingsPage from "./pages/settings-page";
 import ProfilePage from "./pages/profile-page";
 import Create from "./pages/Create";
 import Discover from "./pages/discover";
+import Auth from "./pages/Auth";
 function App() {
   return (
     <ThemeProvider>
@@ -25,6 +26,7 @@ function App() {
             <Route path="profile" element={<ProfilePage />} />
           <Route path="create" element={<Create />} />
           </Route>
+          <Route path="/auth/login" element={<Auth />} />
           {/* <Route path="/create" element={<CreateLayout />}>
 
           </Route> */}
