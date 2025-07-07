@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import ProfileHeader from "../components/Profile/profile-header"
-import ProfileStats from "../components/Profile/profile-stats"
 import ProfileTabs from "../components/Profile/profile-tabs"
 import ProfileContent from "../components/Profile/profile-content"
 import ProfileSettings from "../components/Profile/profile-settings"
@@ -21,16 +20,13 @@ export default function Profile() {
     <div className="w-full min-h-screen bg-background">
       {/* Profile Container */}
       <div className="max-w-5xl mx-auto">
-        {/* Profile Header */}
+        {/* Profile Header (now includes stats) */}
         <ProfileHeader
           profile={profileData}
           isFollowing={isFollowing}
           onFollow={handleFollow}
           onSettings={() => setShowSettings(true)}
         />
-
-        {/* Profile Stats */}
-        <ProfileStats stats={profileData.stats} />
 
         {/* Profile Navigation */}
         <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />

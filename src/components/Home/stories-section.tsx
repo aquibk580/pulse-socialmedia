@@ -52,6 +52,34 @@ export default function StoriesSection() {
       storyImage: "/placeholder.svg?height=120&width=90",
       isViewed: false,
     },
+    {
+      id: "7",
+      username: "john_doe",
+      avatar: "/placeholder.svg?height=32&width=32",
+      storyImage: "/placeholder.svg?height=120&width=90",
+      isViewed: true,
+    },
+    {
+      id: "8",
+      username: "jane_smith",
+      avatar: "/placeholder.svg?height=32&width=32",
+      storyImage: "/placeholder.svg?height=120&width=90",
+      isViewed: false,
+    },
+    {
+      id: "9",
+      username: "mark_t",
+      avatar: "/placeholder.svg?height=32&width=32",
+      storyImage: "/placeholder.svg?height=120&width=90",
+      isViewed: true,
+    },
+    {
+      id: "10",
+      username: "linda_k",
+      avatar: "/placeholder.svg?height=32&width=32",
+      storyImage: "/placeholder.svg?height=120&width=90",
+      isViewed: false,
+    },
   ]
 
   return (

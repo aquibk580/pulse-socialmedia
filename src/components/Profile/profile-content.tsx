@@ -10,7 +10,14 @@ interface ProfileContentProps {
 }
 
 export default function ProfileContent({ activeTab, profile }: ProfileContentProps) {
-  const [selectedPost, setSelectedPost] = useState(null)
+  const [selectedPost, setSelectedPost] = useState<{
+    id: number;
+    type: string;
+    thumbnail: string;
+    likes: number;
+    comments: number;
+    caption: string;
+  } | null>(null)
 
   // Mock data for different content types
   const posts = Array.from({ length: 12 }, (_, i) => ({
