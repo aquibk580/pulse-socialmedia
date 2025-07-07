@@ -1,6 +1,6 @@
 "use client"
 
-import { Heart, MessageCircle, Share, Plus, Check, MoreHorizontal } from "lucide-react"
+import { Heart, MessageCircle, Share, Plus, Check, MoreHorizontal, BadgeCheck } from "lucide-react"
 import type { Post } from "../../types/post"
 import { useState } from "react"
 import { Card, CardContent } from "../ui/card"
@@ -39,11 +39,11 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
   }
 
   return (
-    <Card className="mb-4 sm:mb-6 overflow-hidden border-0 shadow-lg bg-gradient-to-br from-background to-muted/20 mx-2 sm:mx-0">
+    <Card className=" py-0 gap-3 rounded-none  shadow-none px-4 overflow-hidden ">
       {/* Header */}
-      <div className="flex items-start sm:items-center justify-between p-3 sm:p-6 pb-3 sm:pb-4">
+      <div className="flex items-start sm:items-center justify-between px-6 ">
         <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
-          <div className="relative flex-shrink-0">
+          <div className="relative ">
             <img
               src={post.user.avatar || "/placeholder.svg"}
               alt={`${post.user.username} profile`}
@@ -57,8 +57,8 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
                 {post.user.username}
               </h3>
               {post.user.isVerified && (
-                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-foreground rounded-full flex items-center justify-center flex-shrink-0">
-                  <Check className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-background" />
+                <div className="w-3 h-3 sm:w-4 sm:h-4  rounded-full flex items-center justify-center flex-shrink-0">
+                <BadgeCheck className="w-10 h-10 text-blue-600 fill-blue-200 " />
                 </div>
               )}
             </div>
@@ -71,22 +71,22 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
           <button
             onClick={handleFollow}
             className={cn(
-              "flex items-center space-x-1 px-2 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200",
+              "flex items-center space-x-1 px-2 py-1.5 cursor-pointer rounded-full text-xs sm:text-sm font-medium transition-all duration-200",
               isFollowing
                 ? "bg-muted text-muted-foreground hover:bg-muted/80"
-                : "bg-foreground text-background hover:bg-foreground/90 shadow-md hover:shadow-lg",
+                : "bg-foreground text-background hover:bg-foreground/90 shadow-md",
             )}
           >
             {isFollowing ? (
-              <>
+              <button  className="flex cursor-pointer items-center gap-1.5 py-0.5 px-3">
                 <Check className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden xs:inline">Following</span>
-              </>
+                <span className="">Following</span>
+              </button>
             ) : (
-              <>
+              <button className="flex cursor-pointer items-center gap-1.5 py-0.5 px-3 ">
                 <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden xs:inline">Follow</span>
-              </>
+                <span className=" ">Follow</span>
+              </button>
             )}
           </button>
           <button className="p-1.5 sm:p-2 hover:bg-muted rounded-full transition-colors">
@@ -96,14 +96,14 @@ export default function SocialPost({ post, onFollow, onLike, onComment, onShare 
       </div>
 
       {/* Post Content */}
-      <CardContent className="px-3 sm:px-6 py-0">
+      <CardContent className="px-3 sm:px-6 shadow-none  ">
         <p className="text-foreground leading-relaxed mb-3 sm:mb-4 text-sm sm:text-base break-words">
           {post.content}
         </p>
 
         {/* Image Carousel */}
         {post.images && post.images.length > 0 && (
-          <div className="mb-3 sm:mb-4">
+          <div className="mb-2 sm:mb-1">
             <ImageCarousel images={post.images} alt={`Post by ${post.user.username}`} />
           </div>
         )}

@@ -1,7 +1,5 @@
-"use client"
-
 import { NavLink } from "react-router-dom"
-import { Home, Search, Settings, User, Compass, MessageCircle } from "lucide-react"
+import { Home, Search, Settings, User, Compass, MessageCircle, Grid2x2, Bell, Bookmark, LoaderPinwheel, LogOut } from "lucide-react"
 import { cn } from "../../lib/utils"
 
 interface LeftSidebarProps {
@@ -11,11 +9,11 @@ interface LeftSidebarProps {
 export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
   const menuItems = [
     { id: "home", label: "Home", icon: Home, path: "/" },
-    { id: "search", label: "Search", icon: Search, path: "/search" },
     { id: "explore", label: "Explore", icon: Compass, path: "/explore" },
     { id: "messages", label: "Messages", icon: MessageCircle, path: "/messages" },
-    { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
+    { id: "create", label: "Create", icon: Grid2x2, path: "/create" },
     { id: "profile", label: "Profile", icon: User, path: "/profile" },
+    { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
   ]
 
   return (
@@ -23,20 +21,20 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
       {/* Desktop Sidebar */}
       <div
         className={cn(
-          "hidden md:flex flex-col h-[calc(100vh-4rem)]  md:w-[28%] lg:w-[21%]  bg-card/50 backdrop-blur-sm border-r border-border fixed top-0",
+          "hidden md:flex flex-col h-screen md:w-[28%] lg:w-[21%]  backdrop-blur-sm  fixed top-0",
           className,
         )}
       >
         {/* Logo Section */}
-        <div className="p-4 lg:p-6 border-b border-border my-6 ">
-          <h1 className="text-2xl lg:text-3xl font-bold text-foreground" style={{ fontFamily: 'cursive' }}>
-            PULSE
+        <div className=" py-5  ">
+          <h1 className="text-2xl lg:text-3xl flex items-center justify-center gap-2 font-bold text-foreground ">
+            <LoaderPinwheel className="w-10 h-10 animate-spin hover:scale-115 text-orange-400  text-xl font-semibold" />  <span className="">PulseUp</span>
           </h1>
         </div>
 
-        <div className="p-4 lg:p-6 flex-1 overflow-y-auto">
-          <nav className="pt-2">
-            <ul className="space-y-1 lg:space-y-2">
+        <div className=" lg:p-6 flex-1 overflow-y-auto">
+          <nav className="">
+            <ul className="space-y-1 lg:space-y-1.5">
               {menuItems.map((item) => {
                 const Icon = item.icon
                 return (
@@ -46,9 +44,9 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
                       end={item.path === "/"}
                       className={({ isActive }) =>
                         cn(
-                          "flex items-center space-x-3 lg:space-x-4 w-full p-3 lg:p-4 rounded-xl transition-all duration-200 text-sm lg:text-base",
+                          "flex items-center  space-x-3 lg:space-x-4 w-full px-4 lg:px-6 py-3  rounded-2xl transition-all duration-200 ",
                           isActive
-                            ? "bg-foreground text-background shadow-lg"
+                            ? "bg-foreground text-background "
                             : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                         )
                       }
@@ -61,6 +59,11 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
               })}
             </ul>
           </nav>
+        </div>
+        <div className=" hidden md:flex px-6 py-4 ">
+          <button className="w-full flex cursor-pointer items-center gap-3 hover:bg-accent-background py-3 px-6 hover:text-red-400 rounded-2xl text-left  text-muted-foreground ">
+            <LogOut /> <span> Logout</span>
+          </button>
         </div>
       </div>
 
@@ -89,6 +92,8 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
             )
           })}
         </div>
+
+
       </div>
     </>
   )

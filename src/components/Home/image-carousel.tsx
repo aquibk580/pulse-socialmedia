@@ -32,7 +32,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
         <img
           src={images[0] || "/placeholder.svg"}
           alt={alt}
-          className="w-full rounded-xl object-cover max-h-96 shadow-md"
+          className="w-full  object-cover max-h-96 "
         />
       </div>
     )
@@ -40,7 +40,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
 
   return (
     <div className="mb-4 relative group">
-      <div className="relative overflow-hidden rounded-xl shadow-md">
+      <div className="relative overflow-hidden ">
         <img
           src={images[currentIndex] || "/placeholder.svg"}
           alt={`${alt} ${currentIndex + 1}`}
@@ -75,7 +75,7 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
 
       {/* Dots Indicator */}
       {images.length > 1 && (
-        <div className="flex justify-center space-x-2 mt-3">
+        <div className="flex justify-center space-x-1 mt-2">
           {images.map((_, index) => (
             <button
               key={index}

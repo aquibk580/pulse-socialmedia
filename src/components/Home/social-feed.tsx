@@ -27,7 +27,7 @@ export default function SocialFeed({ posts }: SocialFeedProps) {
     <div className="w-full py-4 md:py-6">
       <StoriesSection />
 
-      <div className="space-y-6">
+      <div className="space-y-4 ">
         {/* Posts Feed */}
         {posts.map((post) => (
           <SocialPost

@@ -63,15 +63,15 @@ export default function SuggestionsSidebar({
 
   return (
     <>
-      <div className="w-full bg-background/95 backdrop-blur-sm border-l border-border p-4 lg:p-6 space-y-6">
+      <div className="w-full bg-background/95 backdrop-blur-sm py-4 lg:p-6 space-y-1">
         {/* Top Action Buttons */}
         <div className="flex gap-3">
           <button
             onClick={() => setShowActivity(true)}
-            className="flex-1 flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 border border-primary/20 rounded-xl transition-all duration-200 hover:shadow-lg group relative"
+            className="flex-1 flex items-center justify-center gap-2 p-3 bg-foreground text-white rounded-2xl transition-all duration-200   relative"
           >
-            <Bell className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-            <span className="text-sm font-medium text-primary">Activity</span>
+            <Bell className="w-5 h-5  group-hover:scale-110 transition-transform" />
+            <span className="text-sm font-medium ">Notifications</span>
             {notifications > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {notifications}
@@ -81,22 +81,22 @@ export default function SuggestionsSidebar({
           
           <button
             onClick={handleCreateClick}
-            className="flex-1 flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-green-500/10 to-green-400/5 hover:from-green-500/20 hover:to-green-400/10 border border-green-500/20 rounded-xl transition-all duration-200 hover:shadow-lg group"
+            className="flex-1 flex items-center justify-center gap-2 border rounded-2xl transition-all duration-200 "
           >
-            <Plus className="w-5 h-5 text-green-600 group-hover:scale-110 transition-transform" />
-            <span className="text-sm font-medium text-green-600">Create</span>
+            <Plus className="w-5 h-5  group-hover:scale-110 transition-transform" />
+            <span className="text-sm font-medium ">Create</span>
           </button>
         </div>
 
         {/* Current User Card */}
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
-          <CardContent className="p-4">
+        <Card className="border-b shadow-none rounded-none">
+          <CardContent className="">
             <div className="flex items-center space-x-3">
               <div className="relative">
                 <img
                   src={currentUser.avatar || "/placeholder.svg"}
                   alt={`${currentUser.fullName} profile`}
-                  className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20"
+                  className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
                 />
                 <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background"></div>
               </div>
@@ -104,27 +104,28 @@ export default function SuggestionsSidebar({
                 <h3 className="font-semibold text-foreground text-sm truncate">{currentUser.fullName}</h3>
                 <p className="text-xs text-muted-foreground truncate">@{currentUser.username}</p>
               </div>
-              <button className="p-2 hover:bg-muted/50 rounded-full transition-colors">
-                <User className="w-4 h-4 text-muted-foreground" />
+              <button className="px-2.5 py-1.5 flex items-center gap-1 text-xs bg-muted/50 rounded-full transition-colors">
+                <User className="w-5 h-5 text-muted-foreground" />
+                <span>Private</span>
               </button>
             </div>
           </CardContent>
         </Card>
 
         {/* Suggestions */}
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg">Suggestions</CardTitle>
+        <Card className="border-b pt-2 shadow-none rounded-none">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-xl">Suggestions</CardTitle>
           </CardHeader>
-          <CardContent className="pt-0">
-            <div className="space-y-4">
+          <CardContent className="pt-0 ">
+            <div className="space-y-3 ">
               {suggestions.slice(0, 5).map((suggestion) => (
-                <div key={suggestion.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3 min-w-0 flex-1">
+                <div key={suggestion.id} className="flex items-center justify-between  pb-1">
+                  <div className="flex items-center space-x-3 min-w-0  flex-1">
                     <img
                       src={suggestion.avatar || "/placeholder.svg"}
                       alt={`${suggestion.fullName} profile`}
-                      className="w-10 h-10 rounded-full object-cover ring-2 ring-muted/20 shrink-0"
+                      className="w-12 h-12 rounded-full object-cover ring-2 ring-muted/20 shrink-0"
                     />
                     <div className="min-w-0 flex-1">
                       <h3 className="font-semibold text-foreground text-sm truncate">{suggestion.fullName}</h3>
@@ -139,10 +140,10 @@ export default function SuggestionsSidebar({
                   <button
                     onClick={() => handleFollow(suggestion.id)}
                     className={cn(
-                      "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 shrink-0 ml-2",
+                      "px-3 py-1.5 rounded-full cursor-pointer text-xs font-medium transition-all duration-200 shrink-0 ml-2",
                       followedUsers.has(suggestion.id)
                         ? "bg-muted text-muted-foreground hover:bg-muted/80"
-                        : "bg-foreground text-background hover:bg-foreground/90 shadow-md hover:shadow-lg",
+                        : "bg-foreground text-background hover:bg-foreground/90 ",
                     )}
                   >
                     {followedUsers.has(suggestion.id) ? "Following" : "Follow"}
@@ -154,8 +155,8 @@ export default function SuggestionsSidebar({
         </Card>
 
         {/* Categories */}
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
-          <CardHeader className="pb-4">
+        <Card className="border-none shadow-none rounded-none">
+          <CardHeader className="pb-">
             <CardTitle className="text-lg">Explore Categories</CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
@@ -163,7 +164,7 @@ export default function SuggestionsSidebar({
               {categories.map((category, index) => (
                 <div
                   key={index}
-                  className="p-3 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg bg-muted hover:bg-muted/80"
+                  className="p-3 flex items-center justify-center flex-col rounded-3xl px-4 cursor-pointer transition-all duration-200  bg-muted hover:bg-muted/80"
                 >
                   <div className="text-xl mb-2">{category.icon}</div>
                   <p className="text-sm font-medium text-foreground truncate">{category.name}</p>
@@ -175,7 +176,7 @@ export default function SuggestionsSidebar({
 
         {/* Footer */}
         <div className="pt-4 border-t border-border/50">
-          <div className="text-xs text-muted-foreground space-y-2">
+          <div className="text-xs flex items-center flex-col text-muted-foreground space-y-2">
             <div className="flex flex-wrap gap-2">
               <a href="#" className="hover:text-foreground transition-colors">
                 About

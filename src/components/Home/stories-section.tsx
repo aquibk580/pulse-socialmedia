@@ -19,115 +19,77 @@ export default function StoriesSection() {
     },
     {
       id: "2",
-      username: "Lisa_Stern",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/story-bg.png",
-      isViewed: false,
-    },
-    {
-      id: "3",
-      username: "Lisa_Stern",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/story-bg.png",
-      isViewed: false,
-    },
-    {
-      id: "4",
-      username: "Lisa_Stern",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/story-bg.png",
-      isViewed: false,
-    },
-    {
-      id: "5",
       username: "mike_chen",
       avatar: "/placeholder.svg?height=32&width=32",
       storyImage: "/placeholder.svg?height=120&width=90",
       isViewed: true,
     },
     {
-      id: "6",
+      id: "3",
       username: "emma_w",
       avatar: "/placeholder.svg?height=32&width=32",
       storyImage: "/placeholder.svg?height=120&width=90",
       isViewed: false,
     },
     {
-      id: "7",
+      id: "4",
       username: "alex_r",
       avatar: "/placeholder.svg?height=32&width=32",
       storyImage: "/placeholder.svg?height=120&width=90",
       isViewed: true,
     },
     {
-      id: "8",
+      id: "5",
       username: "sarah_j",
       avatar: "/placeholder.svg?height=32&width=32",
       storyImage: "/placeholder.svg?height=120&width=90",
       isViewed: false,
     },
-    // {
-    //   id: "9",
-    //   username: "john_doe",
-    //   avatar: "/placeholder.svg?height=32&width=32",
-    //   storyImage: "/placeholder.svg?height=120&width=90",
-    //   isViewed: true,
-    // },
-    // {
-    //   id: "10",
-    //   username: "jane_doe",
-    //   avatar: "/placeholder.svg?height=32&width=32",
-    //   storyImage: "/placeholder.svg?height=120&width=90",
-    //   isViewed: false,
-    // },
-    // { id: "11",
-    //   username: "mark_smith",
-    //   avatar: "/placeholder.svg?height=32&width=32",
-    //   storyImage: "/placeholder.svg?height=120&width=90",
-    //   isViewed: true,
-    // },
-    // { id: "12",
-    //   username: "lucy_brown",
-    //   avatar: "/placeholder.svg?height=32&width=32",
-    //   storyImage: "/placeholder.svg?height=120&width=90",
-    //   isViewed: false,
-    // },
-    // { id: "13",
-    //   username: "david_jones",
-    //   avatar: "/placeholder.svg?height=32&width=32",
-    //   storyImage: "/placeholder.svg?height=120&width=90",
-    //   isViewed: true,
-    // },
+    {
+      id: "6",
+      username: "sarah_j",
+      avatar: "/placeholder.svg?height=32&width=32",
+      storyImage: "/placeholder.svg?height=120&width=90",
+      isViewed: false,
+    },
   ]
 
   return (
-    <div className="mb-6  ">
-      <div className="flex space-x-3 overflow-x-auto mx-auto scrollbar-hide pb-2">
+    <div className="px-4 pb-4 ">
+      <div className="flex gap-3 py-4 px-4 overflow-x-auto scrollbar-hide pb-1">
         {stories.map((story) => (
-          <div key={story.id} className="flex-shrink-0 m-1 gap-1">
+          <div key={story.id} className="shrink-0 w-24">
             <div
-              className={`relative w-20 h-28 rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 ${
-                story.isViewed ? "ring-2 ring-muted-foreground/30" : "ring-2 ring-foreground"
+              className={`relative h-32 w-full rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-[1.03] shadow-sm ${
+                story.isViewed
+                  ? "ring-2 ring-muted-foreground/30 grayscale"
+                  : "ring-2 ring-transparent bg-gradient-to-tr from-pink-600 via-orange-500 to-yellow-300 p-0.5"
               }`}
-              style={{
-                backgroundImage: `url(${story.storyImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
             >
-              {/* Profile picture at top */}
-              <div className="absolute top-2 left-2">
-                <img
-                  src={story.avatar || "/placeholder.svg"}
-                  alt={story.username}
-                  className="w-6 h-6 rounded-full object-cover ring-2 ring-white"
-                />
-              </div>
+              <div
+                className="w-full h-full rounded-2xl bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${story.storyImage})`,
+                }}
+              >
+                {/* Profile Picture */}
+                <div className="absolute top-2 left-2">
+                  <div className="w-7 h-7 rounded-full ring-2 ring-white overflow-hidden">
+                    <img
+                      src={story.avatar}
+                      alt={story.username}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
 
-              {/* Username at bottom */}
-              <div className="absolute bottom-2 left-2 right-2">
-                <div className="bg-white/90 backdrop-blur-sm rounded-full px-2 py-1">
-                  <span className="text-xs font-medium text-gray-900 truncate block">{story.username}</span>
+                {/* Username */}
+                <div className="absolute bottom-2 left-2 right-2">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-0.5">
+                    <span className="text-[11px] font-medium text-gray-800 truncate block text-center">
+                      {story.username}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
