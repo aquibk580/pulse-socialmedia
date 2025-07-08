@@ -1,87 +1,30 @@
 import type { Post } from "../types/post"
 
-export const postsData: Post[] = [
-  {
-    id: "1",
-    user: {
-      username: "Selena_gomez",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isVerified: true,
-    },
-    content: "Serenity blooms in silence—like this lotus, rising pure amidst the still waters.",
-    images: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-faotnEdKGJTdPDArTqZlKKtJVBV0hn.png",
-      "/placeholder.svg?height=400&width=400",
-      "/placeholder.svg?height=400&width=400",
-    ],
-    timestamp: "1 hr ago",
-    isFollowing: false,
-    likes: 1247,
-    comments: 89,
-    shares: 23,
+// Generate more posts for infinite scroll demo
+export const postsData: Post[] = Array.from({ length: 100 }, (_, i) => ({
+  id: (i + 1).toString(),
+  user: {
+    username: `user_${i + 1}`,
+    avatar: `https://picsum.photos/40/40?random=${i + 100}`,
+    isVerified: i % 3 === 0, // Every 3rd user is verified
   },
-  {
-    id: "2",
-    user: {
-      username: "nature_photographer",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isVerified: false,
-    },
-    content: "Golden hour magic at the mountains. Sometimes the best moments happen when you least expect them. 🌅",
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    timestamp: "3 hrs ago",
-    isFollowing: true,
-    likes: 892,
-    comments: 45,
-    shares: 12,
-  },
-  {
-    id: "3",
-    user: {
-      username: "mindful_moments",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isVerified: false,
-    },
-    content: "Take a deep breath. You are exactly where you need to be. Trust the process and embrace the journey. ✨",
-    timestamp: "5 hrs ago",
-    isFollowing: false,
-    likes: 2156,
-    comments: 134,
-    shares: 67,
-  },
-  {
-    id: "4",
-    user: {
-      username: "travel_diaries",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isVerified: true,
-    },
-    content: "Lost in the beauty of Santorini. Every corner tells a story, every sunset paints a memory. 🇬🇷",
-    images: [
-      "/placeholder.svg?height=350&width=400",
-      "/placeholder.svg?height=350&width=400",
-      "/placeholder.svg?height=350&width=400",
-      "/placeholder.svg?height=350&width=400",
-    ],
-    timestamp: "8 hrs ago",
-    isFollowing: false,
-    likes: 3421,
-    comments: 278,
-    shares: 156,
-  },
-  {
-    id: "5",
-    user: {
-      username: "coffee_chronicles",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isVerified: false,
-    },
-    content: "Monday motivation starts with the perfect cup. What's your go-to morning ritual? ☕",
-    images: ["/placeholder.svg?height=300&width=400"],
-    timestamp: "12 hrs ago",
-    isFollowing: true,
-    likes: 567,
-    comments: 89,
-    shares: 34,
-  },
-]
+  content: `This is a sample post caption number ${i + 1}. ${
+    i % 4 === 0
+      ? "🔥 This is a trending post with lots of engagement! Check out this amazing content that everyone is talking about. #trending #viral #amazing"
+      : i % 3 === 0
+        ? "Just sharing some thoughts and moments from my day. Hope everyone is doing well! 😊 #life #moments #sharing"
+        : i % 2 === 0
+          ? "Another great day to share something awesome with all of you! 🌟 #awesome #great #sharing"
+          : "Simple post sharing some content with the community. Thanks for all the support! 🙏"
+  }`,
+  images: [
+    `https://picsum.photos/400/300?random=${i + 1}`,
+    ...(i % 3 === 0 ? [`https://picsum.photos/400/400?random=${i + 101}`] : []),
+    ...(i % 5 === 0 ? [`https://picsum.photos/400/400?random=${i + 201}`] : []),
+  ],
+  timestamp: `${Math.floor(Math.random() * 24) + 1}h ago`,
+  isFollowing: i % 4 === 0, // Every 4th user is followed
+  likes: Math.floor(Math.random() * 5000) + 100,
+  comments: Math.floor(Math.random() * 500) + 10,
+  shares: Math.floor(Math.random() * 100) + 5,
+}))

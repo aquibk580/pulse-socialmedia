@@ -1,13 +1,8 @@
 "use client"
-import { useState } from "react"
-import { Play, Heart, MessageCircle, Bookmark, MoreHorizontal, Eye } from "lucide-react"
+import { useState, useEffect, useCallback } from "react"
+import { Play, Heart, MessageCircle, Bookmark, MoreHorizontal } from "lucide-react"
 
-interface ExploreGridProps {
-  viewMode: "grid" | "list"
-  filter?: string
-}
-
-interface ExploreItem {
+interface PostItem {
   id: number
   type: "image" | "video"
   src: string
@@ -25,69 +20,37 @@ interface ExploreItem {
   caption?: string
 }
 
-export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
-  const [selectedItem, setSelectedItem] = useState<ExploreItem | null>(null)
+interface PostGridProps {
+  posts?: PostItem[]
+  className?: string
+}
+
+export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
+  const [selectedItem, setSelectedItem] = useState<PostItem | null>(null)
   const [likedItems, setLikedItems] = useState<Set<number>>(new Set())
   const [savedItems, setSavedItems] = useState<Set<number>>(new Set())
+  const [displayedPosts, setDisplayedPosts] = useState<PostItem[]>([])
+  const [currentPage, setCurrentPage] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
 
-  // Generate items with Instagram-like pattern
-  const generateItems = (): ExploreItem[] => {
-    const items: ExploreItem[] = []
+  const POSTS_PER_PAGE = 10
+  const sizePattern = ["large", "small", "small", "medium", "small", "small", "medium", "small", "medium", "small"]
 
-    // Instagram-like pattern: mostly small with strategic medium and large placements
-    const patterns = [
-      ["small", "small", "small"],
-      ["small", "medium"],
-      ["large"],
-      ["small", "small", "small"],
-      ["medium", "small"],
-      ["small", "small", "small"],
-      ["small", "large"],
-      ["small", "small", "small"],
-      ["medium", "small"],
-      ["small", "small", "small"],
-    ]
+  // Generate posts with repeating pattern
+  const generatePostBatch = (startId: number, count: number): PostItem[] => {
+    const items: PostItem[] = []
 
-    let itemId = 1
+    for (let i = 0; i < count; i++) {
+      const id = startId + i
+      const patternIndex = i % sizePattern.length
+      const isVideo = Math.random() > 0.5
 
-    patterns.forEach((pattern, patternIndex) => {
-      pattern.forEach((size, index) => {
-        const isVideo = Math.random() > 0.4 // 60% videos
-        const dimensions = size === "large" ? 400 : size === "medium" ? 300 : 200
-
-        items.push({
-          id: itemId,
-          type: isVideo ? "video" : "image",
-          src: `https://picsum.photos/${dimensions}/${dimensions}?random=${itemId}`,
-          thumbnail: `https://picsum.photos/${dimensions}/${dimensions}?random=${itemId}`,
-          duration: isVideo
-            ? `${Math.floor(Math.random() * 9)}:${Math.floor(Math.random() * 60)
-                .toString()
-                .padStart(2, "0")}`
-            : undefined,
-          likes: Math.floor(Math.random() * 50000) + 500,
-          comments: Math.floor(Math.random() * 2000) + 50,
-          views: Math.floor(Math.random() * 100000) + 5000,
-          size: size as "small" | "medium" | "large",
-          user: {
-            username: `creator_${itemId}`,
-            avatar: `https://picsum.photos/40/40?random=${itemId + 100}`,
-            verified: Math.random() > 0.8,
-          },
-          caption: `Amazing content from creator ${itemId}! Check this out 🔥 #trending #explore #content`,
-        })
-        itemId++
-      })
-    })
-
-    // Add more small items to fill gaps
-    for (let i = itemId; i < itemId + 20; i++) {
-      const isVideo = Math.random() > 0.4
       items.push({
-        id: i,
+        id,
         type: isVideo ? "video" : "image",
-        src: `https://picsum.photos/200/200?random=${i}`,
-        thumbnail: `https://picsum.photos/200/200?random=${i}`,
+        src: `https://picsum.photos/300/300?random=${id}`,
+        thumbnail: `https://picsum.photos/300/300?random=${id}`,
         duration: isVideo
           ? `${Math.floor(Math.random() * 9)}:${Math.floor(Math.random() * 60)
               .toString()
@@ -96,20 +59,57 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
         likes: Math.floor(Math.random() * 50000) + 500,
         comments: Math.floor(Math.random() * 2000) + 50,
         views: Math.floor(Math.random() * 100000) + 5000,
-        size: "small",
+        size: sizePattern[patternIndex] as "small" | "medium" | "large",
         user: {
-          username: `creator_${i}`,
-          avatar: `https://picsum.photos/40/40?random=${i + 100}`,
-          verified: Math.random() > 0.8,
+          username: `creator_${id}`,
+          avatar: `https://picsum.photos/40/40?random=${id + 100}`,
+          verified: Math.random() > 0.7,
         },
-        caption: `Amazing content from creator ${i}! Check this out 🔥 #trending #explore #content`,
+        caption: `Amazing content from creator ${id}! Check this out 🔥 #trending #explore #content`,
       })
     }
 
     return items
   }
 
-  const exploreItems = generateItems()
+  // Load more posts
+  const loadMorePosts = useCallback(() => {
+    if (loading || !hasMore) return
+
+    setLoading(true)
+
+    // Simulate API delay
+    setTimeout(() => {
+      const startId = currentPage * POSTS_PER_PAGE + 1
+      const newPosts = generatePostBatch(startId, POSTS_PER_PAGE)
+
+      setDisplayedPosts((prev) => [...prev, ...newPosts])
+      setCurrentPage((prev) => prev + 1)
+      setLoading(false)
+
+      // Stop loading after 100 posts (10 pages) for demo
+      if (currentPage >= 9) {
+        setHasMore(false)
+      }
+    }, 500)
+  }, [currentPage, loading, hasMore])
+
+  // Initial load
+  useEffect(() => {
+    loadMorePosts()
+  }, [])
+
+  // Scroll event handler
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1000) {
+        loadMorePosts()
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [loadMorePosts])
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + "M"
@@ -141,176 +141,109 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
     })
   }
 
-  if (viewMode === "list") {
-    return (
-      <div className="space-y-4">
-        {exploreItems.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-all duration-300"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4">
-              <div className="relative aspect-square sm:aspect-auto">
-                <img
-                  src={item.type === "video" ? item.thumbnail : item.src}
-                  alt={`Content by ${item.user.username}`}
-                  className="w-full h-full object-cover cursor-pointer"
-                  onClick={() => setSelectedItem(item)}
-                />
-                {item.type === "video" && (
-                  <>
-                    <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                      {item.duration}
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-white/90 rounded-full p-3">
-                        <Play className="w-5 h-5 text-gray-900 fill-current" />
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="sm:col-span-2 lg:col-span-3 p-4 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center space-x-2 mb-2">
-                    <img
-                      src={item.user.avatar || "/placeholder.svg"}
-                      alt={item.user.username}
-                      className="w-7 h-7 rounded-full"
-                    />
-                    <span className="font-semibold text-sm">{item.user.username}</span>
-                    {item.user.verified && (
-                      <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-                        <span className="text-white text-xs">✓</span>
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-600 line-clamp-2 mb-3">{item.caption}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <div className="flex items-center space-x-1">
-                      <Heart className="w-4 h-4" />
-                      <span>{formatNumber(item.likes)}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <MessageCircle className="w-4 h-4" />
-                      <span>{formatNumber(item.comments)}</span>
-                    </div>
-                    {item.views && (
-                      <div className="flex items-center space-x-1">
-                        <Eye className="w-4 h-4" />
-                        <span>{formatNumber(item.views)}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <button
-                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                      onClick={() => toggleLike(item.id)}
-                    >
-                      <Heart
-                        className={`w-5 h-5 ${likedItems.has(item.id) ? "fill-red-500 text-red-500" : "text-gray-700"}`}
-                      />
-                    </button>
-                    <button
-                      className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                      onClick={() => toggleSave(item.id)}
-                    >
-                      <Bookmark
-                        className={`w-5 h-5 ${savedItems.has(item.id) ? "fill-current text-yellow-500" : "text-gray-700"}`}
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    )
+  // Group posts into blocks of 10 for rendering
+  const postBlocks = []
+  for (let i = 0; i < displayedPosts.length; i += POSTS_PER_PAGE) {
+    postBlocks.push(displayedPosts.slice(i, i + POSTS_PER_PAGE))
   }
 
-  // Instagram-style masonry grid
   return (
     <>
-      <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-3 gap-1 auto-rows-fr">
-          {exploreItems.map((item) => {
-            // Calculate grid spans based on size
-            const getGridSpan = () => {
-              switch (item.size) {
-                case "large":
-                  return "col-span-2 row-span-2"
-                case "medium":
-                  return "col-span-2 row-span-1"
-                default:
-                  return "col-span-1 row-span-1"
-              }
-            }
+      <div className={`w-full ${className}`}>
+        <div className="space-y-4">
+          {postBlocks.map((block, blockIndex) => (
+            <div key={blockIndex} className="grid grid-cols-4 auto-rows-fr">
+              {block.map((item) => {
+                // Calculate grid spans based on size
+                const getGridSpan = () => {
+                  switch (item.size) {
+                    case "large":
+                      return "col-span-2 row-span-2"
+                    case "medium":
+                      return "col-span-2 row-span-1"
+                    default:
+                      return "col-span-1 row-span-1"
+                  }
+                }
 
-            // Calculate aspect ratio based on size
-            const getAspectRatio = () => {
-              switch (item.size) {
-                case "large":
-                  return "aspect-square"
-                case "medium":
-                  return "aspect-[2/1]"
-                default:
-                  return "aspect-square"
-              }
-            }
+                // Calculate aspect ratio based on size
+                const getAspectRatio = () => {
+                  switch (item.size) {
+                    case "large":
+                      return "aspect-square"
+                    case "medium":
+                      return "aspect-[2/1]"
+                    default:
+                      return "aspect-square"
+                  }
+                }
 
-            return (
-              <div
-                key={item.id}
-                className={`relative group cursor-pointer overflow-hidden ${getGridSpan()} ${getAspectRatio()}`}
-                onClick={() => setSelectedItem(item)}
-              >
-                <img
-                  src={item.type === "video" ? item.thumbnail : item.src}
-                  alt={`Content by ${item.user.username}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+                return (
+                  <div
+                    key={item.id}
+                    className={`relative group cursor-pointer overflow-hidden ${getGridSpan()} ${getAspectRatio()}`}
+                    onClick={() => setSelectedItem(item)}
+                  >
+                    <img
+                      src={item.type === "video" ? item.thumbnail : item.src}
+                      alt={`Content by ${item.user.username}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
 
-                {/* Video duration overlay */}
-                {item.type === "video" && (
-                  <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
-                    <Play className="w-3 h-3 fill-current" />
-                    <span>{item.duration}</span>
-                  </div>
-                )}
-
-                {/* Hover overlay with stats */}
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex items-center space-x-4 text-white">
-                      <div className="flex items-center space-x-1">
-                        <Heart className="w-4 h-4 fill-current" />
-                        <span className="text-sm font-semibold">{formatNumber(item.likes)}</span>
+                    {/* Video duration overlay */}
+                    {item.type === "video" && (
+                      <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
+                        <Play className="w-3 h-3 fill-current" />
+                        <span>{item.duration}</span>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <MessageCircle className="w-4 h-4 fill-current" />
-                        <span className="text-sm font-semibold">{formatNumber(item.comments)}</span>
+                    )}
+
+                    {/* Hover overlay with stats */}
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="flex items-center space-x-4 text-white">
+                          <div className="flex items-center space-x-1">
+                            <Heart className="w-4 h-4 fill-current" />
+                            <span className="text-sm font-semibold">{formatNumber(item.likes)}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <MessageCircle className="w-4 h-4 fill-current" />
+                            <span className="text-sm font-semibold">{formatNumber(item.comments)}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                {/* Multiple content indicator for large items */}
-                {item.size === "large" && (
-                  <div className="absolute top-2 left-2">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                      <div className="w-2 h-2 bg-white/50 rounded-full"></div>
-                      <div className="w-2 h-2 bg-white/50 rounded-full"></div>
-                    </div>
+                    {/* Size indicator for large posts */}
+                    {item.size === "large" && (
+                      <div className="absolute top-2 left-2">
+                        <div className="flex space-x-1">
+                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                          <div className="w-2 h-2 bg-white/50 rounded-full"></div>
+                          <div className="w-2 h-2 bg-white/50 rounded-full"></div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            )
-          })}
+                )
+              })}
+            </div>
+          ))}
         </div>
+
+        {/* Loading indicator */}
+        {loading && (
+          <div className="flex justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+          </div>
+        )}
+
+        {/* End of content indicator */}
+        {!hasMore && displayedPosts.length > 0 && (
+          <div className="text-center py-8 text-gray-500">
+            <p>You've reached the end!</p>
+          </div>
+        )}
       </div>
 
       {/* Modal for selected item */}

@@ -1,129 +1,142 @@
 "use client"
 
+import { useState } from "react"
+import StoryModal from "./story-modal"
+
 interface Story {
   id: string
+  image: string
+  timestamp: string
+  type: "image" | "video"
+  duration?: number
+}
+
+interface UserStories {
+  userId: string
   username: string
   avatar: string
-  storyImage: string
-  isViewed?: boolean
+  isViewed: boolean
+  stories: Story[]
 }
 
 export default function StoriesSection() {
-  const stories: Story[] = [
-    {
-      id: "1",
-      username: "Lisa_Stern",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/story-bg.png",
-      isViewed: false,
-    },
-    {
-      id: "2",
-      username: "mike_chen",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: true,
-    },
-    {
-      id: "3",
-      username: "emma_w",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: false,
-    },
-    {
-      id: "4",
-      username: "alex_r",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: true,
-    },
-    {
-      id: "5",
-      username: "sarah_j",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: false,
-    },
-    {
-      id: "6",
-      username: "sarah_j",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: false,
-    },
-    {
-      id: "7",
-      username: "john_doe",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: true,
-    },
-    {
-      id: "8",
-      username: "jane_smith",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: false,
-    },
-    {
-      id: "9",
-      username: "mark_t",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: true,
-    },
-    {
-      id: "10",
-      username: "linda_k",
-      avatar: "/placeholder.svg?height=32&width=32",
-      storyImage: "/placeholder.svg?height=120&width=90",
-      isViewed: false,
-    },
-  ]
+  const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null)
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState(0)
+
+  // Generate users with multiple stories each
+  const userStories: UserStories[] = Array.from({ length: 25 }, (_, i) => {
+    const storyCount = Math.floor(Math.random() * 5) + 1 // 1-5 stories per user
+    const stories: Story[] = Array.from({ length: storyCount }, (_, j) => ({
+      id: `${i + 1}_${j + 1}`,
+      image: `https://picsum.photos/${Math.random() > 0.5 ? "400/600" : "600/400"}?random=${i * 10 + j + 1}`,
+      timestamp: `${Math.floor(Math.random() * 24)}h`,
+      type: Math.random() > 0.7 ? "video" : "image",
+      duration: Math.random() > 0.7 ? Math.floor(Math.random() * 30) + 10 : undefined,
+    }))
+
+    return {
+      userId: (i + 1).toString(),
+      username: `user_${i + 1}`,
+      avatar: `https://picsum.photos/40/40?random=${i + 100}`,
+      isViewed: Math.random() < 0.3,
+      stories,
+    }
+  })
+
+  const handleStoryClick = (userIndex: number) => {
+    setSelectedUserIndex(userIndex)
+    setSelectedStoryIndex(0)
+  }
+
+  const handleCloseStory = () => {
+    setSelectedUserIndex(null)
+    setSelectedStoryIndex(0)
+  }
+
+  const handleUserChange = (newUserIndex: number, newStoryIndex = 0) => {
+    setSelectedUserIndex(newUserIndex)
+    setSelectedStoryIndex(newStoryIndex)
+  }
+
+  const handleStoryChange = (newStoryIndex: number) => {
+    setSelectedStoryIndex(newStoryIndex)
+  }
 
   return (
-    <div className="px-4 pb-4 ">
-      <div className="flex gap-3 py-4 px-4 overflow-x-auto scrollbar-hide pb-1">
-        {stories.map((story) => (
-          <div key={story.id} className="shrink-0 w-24">
-            <div
-              className={`relative h-32 w-full rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-200 hover:scale-[1.03] shadow-sm ${
-                story.isViewed
-                  ? "ring-2 ring-muted-foreground/30 grayscale"
-                  : "ring-2 ring-transparent bg-gradient-to-tr from-pink-600 via-orange-500 to-yellow-300 p-0.5"
-              }`}
-            >
+    <>
+      <div className="px-4 pb-4">
+        <div className="flex gap-3 py-4 px-4 overflow-x-auto scrollbar-hide pb-1">
+          {userStories.map((userStory, index) => (
+            <div key={userStory.userId} className="shrink-0 w-24 group">
               <div
-                className="w-full h-full rounded-2xl bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${story.storyImage})`,
-                }}
+                onClick={() => handleStoryClick(index)}
+                className={`relative h-32 w-full rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[1.05] shadow-lg hover:shadow-xl ${
+                  userStory.isViewed
+                    ? "ring-2 ring-muted-foreground/30"
+                    : "ring-2 ring-transparent bg-gradient-to-tr from-pink-600 via-orange-500 to-yellow-300 p-0.5"
+                }`}
               >
-                {/* Profile Picture */}
-                <div className="absolute top-2 left-2">
-                  <div className="w-7 h-7 rounded-full ring-2 ring-white overflow-hidden">
-                    <img
-                      src={story.avatar}
-                      alt={story.username}
-                      className="w-full h-full object-cover"
-                    />
+                <div
+                  className="w-full h-full rounded-2xl bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                  style={{
+                    backgroundImage: `url(${userStory.stories[0].image})`,
+                  }}
+                >
+                  {/* Profile Picture - moved away from border */}
+                  <div className="absolute top-3 left-3 transform transition-all duration-300 group-hover:scale-110">
+                    <div className="w-7 h-7 rounded-full ring-2 ring-white overflow-hidden shadow-md">
+                      <img
+                        src={userStory.avatar || "/placeholder.svg"}
+                        alt={userStory.username}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Username */}
-                <div className="absolute bottom-2 left-2 right-2">
-                  <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-0.5">
-                    <span className="text-[11px] font-medium text-gray-800 truncate block text-center">
-                      {story.username}
-                    </span>
+                  {/* Story count indicator - removed as requested */}
+                  {/* {userStory.stories.length > 1 && (
+                    <div className="absolute top-2 right-2">
+                      <div className="bg-black/60 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+                        {userStory.stories.length}
+                      </div>
+                    </div>
+                  )} */}
+
+                  {/* Video indicator - removed as requested */}
+                  {/* {userStory.stories[0].type === "video" && (
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                      <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div className="w-0 h-0 border-l-[6px] border-l-white border-y-[4px] border-y-transparent ml-0.5"></div>
+                      </div>
+                    </div>
+                  )} */}
+
+                  {/* Username */}
+                  <div className="absolute bottom-2 left-2 right-2 transform transition-all duration-300 group-hover:translate-y-1">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 shadow-sm">
+                      <span className="text-[11px] font-medium text-gray-800 truncate block text-center">
+                        {userStory.username}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Story Modal */}
+      {selectedUserIndex !== null && (
+        <StoryModal
+          userStories={userStories}
+          currentUserIndex={selectedUserIndex}
+          currentStoryIndex={selectedStoryIndex}
+          onClose={handleCloseStory}
+          onUserChange={handleUserChange}
+          onStoryChange={handleStoryChange}
+        />
+      )}
+    </>
   )
 }
