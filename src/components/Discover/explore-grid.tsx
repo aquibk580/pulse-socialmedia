@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { Play, Heart, MessageCircle, Bookmark, MoreHorizontal, Eye } from "lucide-react"
 
@@ -31,34 +30,64 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
   const [likedItems, setLikedItems] = useState<Set<number>>(new Set())
   const [savedItems, setSavedItems] = useState<Set<number>>(new Set())
 
-  // Generate items with strategic sizing for perfect Instagram-style layout
+  // Generate items with Instagram-like pattern
   const generateItems = (): ExploreItem[] => {
     const items: ExploreItem[] = []
-    
-    // Create a much denser pattern with more small items to fill spaces
-    const sizePattern = [
-      'small', 'small', 'large', 'small', 'small', 'medium', 'medium', 'small',
-      'small', 'small', 'small', 'small', 'small', 'medium', 'small', 'small',
-      'small', 'large', 'small', 'small', 'small', 'small', 'small', 'small',
-      'small', 'small', 'small', 'medium', 'small', 'small', 'small', 'small',
-      'small', 'small', 'large', 'small', 'small', 'small', 'small', 'small',
-      'small', 'small', 'small', 'small', 'medium', 'small', 'small', 'small',
-      'small', 'small', 'small', 'small', 'small', 'large', 'small', 'small',
-      'small', 'small', 'small', 'small', 'small', 'small', 'small', 'small',
-      'small', 'small', 'small', 'small', 'small', 'small', 'small', 'small',
-      'small', 'small', 'small', 'small', 'small', 'small', 'small', 'small'
+
+    // Instagram-like pattern: mostly small with strategic medium and large placements
+    const patterns = [
+      ["small", "small", "small"],
+      ["small", "medium"],
+      ["large"],
+      ["small", "small", "small"],
+      ["medium", "small"],
+      ["small", "small", "small"],
+      ["small", "large"],
+      ["small", "small", "small"],
+      ["medium", "small"],
+      ["small", "small", "small"],
     ]
 
-    // Generate 80 items instead of 42 to fill all spaces
-    for (let i = 0; i < 80; i++) {
-      const size = sizePattern[i % sizePattern.length] as "small" | "medium" | "large"
-      const isVideo = Math.random() > 0.3 // 70% videos
+    let itemId = 1
 
+    patterns.forEach((pattern, patternIndex) => {
+      pattern.forEach((size, index) => {
+        const isVideo = Math.random() > 0.4 // 60% videos
+        const dimensions = size === "large" ? 400 : size === "medium" ? 300 : 200
+
+        items.push({
+          id: itemId,
+          type: isVideo ? "video" : "image",
+          src: `https://picsum.photos/${dimensions}/${dimensions}?random=${itemId}`,
+          thumbnail: `https://picsum.photos/${dimensions}/${dimensions}?random=${itemId}`,
+          duration: isVideo
+            ? `${Math.floor(Math.random() * 9)}:${Math.floor(Math.random() * 60)
+                .toString()
+                .padStart(2, "0")}`
+            : undefined,
+          likes: Math.floor(Math.random() * 50000) + 500,
+          comments: Math.floor(Math.random() * 2000) + 50,
+          views: Math.floor(Math.random() * 100000) + 5000,
+          size: size as "small" | "medium" | "large",
+          user: {
+            username: `creator_${itemId}`,
+            avatar: `https://picsum.photos/40/40?random=${itemId + 100}`,
+            verified: Math.random() > 0.8,
+          },
+          caption: `Amazing content from creator ${itemId}! Check this out 🔥 #trending #explore #content`,
+        })
+        itemId++
+      })
+    })
+
+    // Add more small items to fill gaps
+    for (let i = itemId; i < itemId + 20; i++) {
+      const isVideo = Math.random() > 0.4
       items.push({
-        id: i + 1,
+        id: i,
         type: isVideo ? "video" : "image",
-        src: `https://picsum.photos/${size === "large" ? 600 : size === "medium" ? 400 : 300}/${size === "large" ? 600 : size === "medium" ? 400 : 300}?random=${i}`,
-        thumbnail: `https://picsum.photos/${size === "large" ? 600 : size === "medium" ? 400 : 300}/${size === "large" ? 600 : size === "medium" ? 400 : 300}?random=${i}`,
+        src: `https://picsum.photos/200/200?random=${i}`,
+        thumbnail: `https://picsum.photos/200/200?random=${i}`,
         duration: isVideo
           ? `${Math.floor(Math.random() * 9)}:${Math.floor(Math.random() * 60)
               .toString()
@@ -67,16 +96,16 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
         likes: Math.floor(Math.random() * 50000) + 500,
         comments: Math.floor(Math.random() * 2000) + 50,
         views: Math.floor(Math.random() * 100000) + 5000,
-        size,
+        size: "small",
         user: {
-          username: `creator_${i + 1}`,
+          username: `creator_${i}`,
           avatar: `https://picsum.photos/40/40?random=${i + 100}`,
           verified: Math.random() > 0.8,
         },
-        caption: `Amazing content from creator ${i + 1}! Check this out 🔥 #trending #explore #content`,
+        caption: `Amazing content from creator ${i}! Check this out 🔥 #trending #explore #content`,
       })
     }
-    
+
     return items
   }
 
@@ -116,7 +145,10 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
     return (
       <div className="space-y-4">
         {exploreItems.map((item) => (
-          <div key={item.id} className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-all duration-300">
+          <div
+            key={item.id}
+            className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-all duration-300"
+          >
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4">
               <div className="relative aspect-square sm:aspect-auto">
                 <img
@@ -142,7 +174,7 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
                 <div>
                   <div className="flex items-center space-x-2 mb-2">
                     <img
-                      src={item.user.avatar}
+                      src={item.user.avatar || "/placeholder.svg"}
                       alt={item.user.username}
                       className="w-7 h-7 rounded-full"
                     />
@@ -173,17 +205,21 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
                     )}
                   </div>
                   <div className="flex items-center space-x-2">
-                    <button 
+                    <button
                       className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                       onClick={() => toggleLike(item.id)}
                     >
-                      <Heart className={`w-5 h-5 ${likedItems.has(item.id) ? 'fill-red-500 text-red-500' : 'text-gray-700'}`} />
+                      <Heart
+                        className={`w-5 h-5 ${likedItems.has(item.id) ? "fill-red-500 text-red-500" : "text-gray-700"}`}
+                      />
                     </button>
-                    <button 
+                    <button
                       className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                       onClick={() => toggleSave(item.id)}
                     >
-                      <Bookmark className={`w-5 h-5 ${savedItems.has(item.id) ? 'fill-current text-yellow-500' : 'text-gray-700'}`} />
+                      <Bookmark
+                        className={`w-5 h-5 ${savedItems.has(item.id) ? "fill-current text-yellow-500" : "text-gray-700"}`}
+                      />
                     </button>
                   </div>
                 </div>
@@ -195,61 +231,52 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
     )
   }
 
-  // Instagram-style tight grid with absolutely no gaps
+  // Instagram-style masonry grid
   return (
     <>
       <div className="max-w-4xl mx-auto">
-        <div 
-          className="grid auto-rows-fr"
-          style={{ 
-            gap: '2px',
-            gridGap: '0px',
-            margin: '0',
-            padding: '0',
-            border: 'none',
-            outline: 'none',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))'
-          }}
-        >
+        <div className="grid grid-cols-3 gap-1 auto-rows-fr">
           {exploreItems.map((item) => {
-            // Determine grid span based on size and screen size
-            const getGridClass = () => {
-              if (item.size === "large") return "col-span-2 row-span-2"
-              if (item.size === "medium") return "col-span-2 row-span-1"
-              return "col-span-1 row-span-1"
+            // Calculate grid spans based on size
+            const getGridSpan = () => {
+              switch (item.size) {
+                case "large":
+                  return "col-span-2 row-span-2"
+                case "medium":
+                  return "col-span-2 row-span-1"
+                default:
+                  return "col-span-1 row-span-1"
+              }
+            }
+
+            // Calculate aspect ratio based on size
+            const getAspectRatio = () => {
+              switch (item.size) {
+                case "large":
+                  return "aspect-square"
+                case "medium":
+                  return "aspect-[2/1]"
+                default:
+                  return "aspect-square"
+              }
             }
 
             return (
               <div
                 key={item.id}
-                className={`relative group cursor-pointer overflow-hidden bg-black ${getGridClass()}`}
-                style={{ 
-                  aspectRatio: item.size === "large" ? "1" : item.size === "medium" ? "2/1" : "1",
-                  minHeight: "120px",
-                  margin: '0',
-                  padding: '0',
-                  border: 'none',
-                  outline: 'none'
-                }}
+                className={`relative group cursor-pointer overflow-hidden ${getGridSpan()} ${getAspectRatio()}`}
                 onClick={() => setSelectedItem(item)}
               >
-              <img
-                src={item.type === "video" ? item.thumbnail : item.src}
-                alt={`Content by ${item.user.username}`}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                style={{ 
-                  display: 'block',
-                  margin: '0',
-                  padding: '0',
-                  border: 'none',
-                  outline: 'none'
-                }}
-              />
+                <img
+                  src={item.type === "video" ? item.thumbnail : item.src}
+                  alt={`Content by ${item.user.username}`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
 
                 {/* Video duration overlay */}
                 {item.type === "video" && (
-                  <div className="absolute top-1 right-1 bg-black/80 text-white text-xs px-1.5 py-0.5 rounded-sm flex items-center space-x-0.5">
-                    <Play className="w-2 h-2 fill-current" />
+                  <div className="absolute top-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
+                    <Play className="w-3 h-3 fill-current" />
                     <span>{item.duration}</span>
                   </div>
                 )}
@@ -257,14 +284,14 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
                 {/* Hover overlay with stats */}
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex items-center space-x-2 text-white">
+                    <div className="flex items-center space-x-4 text-white">
                       <div className="flex items-center space-x-1">
-                        <Heart className="w-3 h-3 fill-current" />
-                        <span className="text-xs font-semibold">{formatNumber(item.likes)}</span>
+                        <Heart className="w-4 h-4 fill-current" />
+                        <span className="text-sm font-semibold">{formatNumber(item.likes)}</span>
                       </div>
                       <div className="flex items-center space-x-1">
-                        <MessageCircle className="w-3 h-3 fill-current" />
-                        <span className="text-xs font-semibold">{formatNumber(item.comments)}</span>
+                        <MessageCircle className="w-4 h-4 fill-current" />
+                        <span className="text-sm font-semibold">{formatNumber(item.comments)}</span>
                       </div>
                     </div>
                   </div>
@@ -272,11 +299,11 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
 
                 {/* Multiple content indicator for large items */}
                 {item.size === "large" && (
-                  <div className="absolute top-1 left-1">
-                    <div className="flex space-x-0.5">
-                      <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                      <div className="w-1.5 h-1.5 bg-white/50 rounded-full"></div>
-                      <div className="w-1.5 h-1.5 bg-white/50 rounded-full"></div>
+                  <div className="absolute top-2 left-2">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                      <div className="w-2 h-2 bg-white/50 rounded-full"></div>
+                      <div className="w-2 h-2 bg-white/50 rounded-full"></div>
                     </div>
                   </div>
                 )}
@@ -299,7 +326,7 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
             <div className="grid grid-cols-1 lg:grid-cols-3 max-h-[95vh]">
               <div className="lg:col-span-2 flex items-center justify-center bg-black">
                 <img
-                  src={selectedItem.src}
+                  src={selectedItem.src || "/placeholder.svg"}
                   alt="Selected content"
                   className="max-w-full max-h-full object-contain"
                 />
@@ -307,7 +334,7 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
               <div className="p-6 overflow-y-auto bg-white">
                 <div className="flex items-center space-x-3 mb-4">
                   <img
-                    src={selectedItem.user.avatar}
+                    src={selectedItem.user.avatar || "/placeholder.svg"}
                     alt={selectedItem.user.username}
                     className="w-10 h-10 rounded-full"
                   />
@@ -325,15 +352,15 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
                     <MoreHorizontal className="w-5 h-5" />
                   </button>
                 </div>
-
                 <p className="text-sm mb-4">{selectedItem.caption}</p>
-
                 <div className="flex items-center space-x-6 mb-6">
                   <button
                     onClick={() => toggleLike(selectedItem.id)}
                     className="flex items-center space-x-2 hover:text-red-500 transition-colors"
                   >
-                    <Heart className={`w-6 h-6 ${likedItems.has(selectedItem.id) ? 'fill-red-500 text-red-500' : ''}`} />
+                    <Heart
+                      className={`w-6 h-6 ${likedItems.has(selectedItem.id) ? "fill-red-500 text-red-500" : ""}`}
+                    />
                     <span className="font-medium">{formatNumber(selectedItem.likes)}</span>
                   </button>
                   <button className="flex items-center space-x-2 hover:text-blue-500 transition-colors">
@@ -345,11 +372,10 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
                     className="hover:text-yellow-500 transition-colors"
                   >
                     <Bookmark
-                      className={`w-6 h-6 ${savedItems.has(selectedItem.id) ? 'fill-current text-yellow-500' : ''}`}
+                      className={`w-6 h-6 ${savedItems.has(selectedItem.id) ? "fill-current text-yellow-500" : ""}`}
                     />
                   </button>
                 </div>
-
                 <div className="space-y-4">
                   <h4 className="font-semibold">Comments</h4>
                   <div className="space-y-4 max-h-60 overflow-y-auto">
@@ -366,13 +392,15 @@ export default function ExploreGrid({ viewMode, filter }: ExploreGridProps) {
                             <span className="text-xs text-gray-500">{Math.floor(Math.random() * 12) + 1}h</span>
                           </div>
                           <p className="text-sm text-gray-700">
-                            {[
-                              "Great content! Love this 🔥",
-                              "Amazing work! 👏",
-                              "This is so cool! 😍",
-                              "Incredible! Keep it up! 💪",
-                              "Stunning! 🤩✨"
-                            ][i]}
+                            {
+                              [
+                                "Great content! Love this 🔥",
+                                "Amazing work! 👏",
+                                "This is so cool! 😍",
+                                "Incredible! Keep it up! 💪",
+                                "Stunning! 🤩✨",
+                              ][i]
+                            }
                           </p>
                         </div>
                       </div>
