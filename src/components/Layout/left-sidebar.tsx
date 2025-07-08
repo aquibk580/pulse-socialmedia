@@ -21,7 +21,7 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
       {/* Desktop Sidebar */}
       <div
         className={cn(
-          "hidden md:flex flex-col h-screen md:w-[28%] lg:w-[21%]  backdrop-blur-sm  fixed top-0",
+          "hidden md:flex flex-col h-screen md:w-[28%] lg:w-[20%] border-r  backdrop-blur-sm  fixed top-0",
           className,
         )}
       >
@@ -44,7 +44,7 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
                       end={item.path === "/"}
                       className={({ isActive }) =>
                         cn(
-                          "flex items-center  space-x-3 lg:space-x-4 w-full px-4 lg:px-6 py-3  rounded-2xl transition-all duration-200 ",
+                          "flex items-center  space-x-3 lg:space-x-4 w-full px-4 lg:px-8 py-3  rounded-2xl transition-all duration-200 ",
                           isActive
                             ? "bg-foreground text-background "
                             : "text-muted-foreground hover:text-foreground hover:bg-muted/50",

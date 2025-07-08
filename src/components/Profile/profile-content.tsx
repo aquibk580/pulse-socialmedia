@@ -41,11 +41,11 @@ export default function ProfileContent({ activeTab, profile }: ProfileContentPro
   }
 
   const renderPostsGrid = () => (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 sm:gap-2 lg:gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  gap-1 sm:gap-2 lg:gap-3">
       {posts.map((post) => (
         <div
           key={post.id}
-          className="aspect-square relative group cursor-pointer overflow-hidden rounded-lg"
+          className="aspect-square relative group cursor-pointer overflow-hidden rounded-xl"
           onClick={() => setSelectedPost(post)}
         >
           <img
@@ -63,7 +63,7 @@ export default function ProfileContent({ activeTab, profile }: ProfileContentPro
 
           {/* Hover Overlay */}
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <div className="flex items-center space-x-4 text-white text-sm">
+            <div className="flex items-center space-x-4 text-white text-md">
               <div className="flex items-center space-x-1">
                 <Heart className="w-4 h-4" />
                 <span>{post.likes}</span>
@@ -81,10 +81,10 @@ export default function ProfileContent({ activeTab, profile }: ProfileContentPro
 
   const renderAbout = () => (
     <div className="space-y-6">
-      <Card>
-        <CardContent className="p-4 sm:p-6">
+      <Card className="shadow-none rounded-none border-b dark:border-background">
+        <CardContent className="p-4 s">
           <h3 className="text-lg font-semibold mb-4">About</h3>
-          <p className="text-muted-foreground leading-relaxed mb-6">{aboutInfo.bio}</p>
+          <p className="text-muted-foreground leading-relaxed mt-3">{aboutInfo.bio}</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {aboutInfo.details.map((detail, index) => {
@@ -103,7 +103,7 @@ export default function ProfileContent({ activeTab, profile }: ProfileContentPro
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="shadow-none rounded-none border-b dark:border-background">
         <CardContent className="p-4 sm:p-6">
           <h3 className="text-lg font-semibold mb-4">Interests</h3>
           <div className="flex flex-wrap gap-2">
