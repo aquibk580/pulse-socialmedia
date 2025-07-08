@@ -25,7 +25,7 @@ export default function HashtagSuggestions({ query }: HashtagSuggestionsProps) {
   if (filteredHashtags.length === 0) return null
 
   return (
-    <Card>
+    <Card className="border shadow-none rounded-3xl mb-3">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg flex items-center">
           <Hash className="w-5 h-5 mr-2 text-blue-500" />

@@ -31,9 +31,9 @@ export default function TrendingSidebar() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Trending Hashtags */}
-      <Card>
+      <Card className=" border shadow-none rounded-3xl">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center">
             <Hash className="w-5 h-5 mr-2 text-blue-500" />
@@ -64,8 +64,8 @@ export default function TrendingSidebar() {
       </Card>
 
       {/* Popular Places */}
-      <Card>
-        <CardHeader className="pb-3">
+      <Card className="border shadow-none rounded-3xl ">
+        <CardHeader className="pb-2">
           <CardTitle className="text-lg flex items-center">
             <MapPin className="w-5 h-5 mr-2 text-blue-500" />
             Popular Places
@@ -94,7 +94,7 @@ export default function TrendingSidebar() {
       </Card>
 
       {/* Rising Creators */}
-      <Card>
+      <Card className="border shadow-none rounded-3xl ">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center">
             <TrendingUp className="w-5 h-5 mr-2 text-green-500" />

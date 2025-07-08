@@ -150,9 +150,9 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
   return (
     <>
       <div className={`w-full ${className}`}>
-        <div className="space-y-4">
+        <div className=" space-y-1.5  ">
           {postBlocks.map((block, blockIndex) => (
-            <div key={blockIndex} className="grid grid-cols-4 auto-rows-fr">
+            <div key={blockIndex} className="grid grid-cols-4 gap-1   auto-rows-fr">
               {block.map((item) => {
                 // Calculate grid spans based on size
                 const getGridSpan = () => {
@@ -181,13 +181,13 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
                 return (
                   <div
                     key={item.id}
-                    className={`relative group cursor-pointer overflow-hidden ${getGridSpan()} ${getAspectRatio()}`}
+                    className={`relative group cursor-pointer rounded-xl   overflow-hidden   ${getGridSpan()} ${getAspectRatio()}`}
                     onClick={() => setSelectedItem(item)}
                   >
                     <img
                       src={item.type === "video" ? item.thumbnail : item.src}
                       alt={`Content by ${item.user.username}`}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300  group-hover:scale-105"
                     />
 
                     {/* Video duration overlay */}

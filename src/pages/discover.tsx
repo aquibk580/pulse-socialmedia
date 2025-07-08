@@ -29,21 +29,13 @@ export default function Discover() {
   return (
     <div className="w-full min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="sticky top-0 z-10 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            {/* Left - Logo */}
-            <div className="flex items-center">
-              <h1 className="text-xl lg:text-2xl font-bold text-foreground flex items-center space-x-2">
-                <Sparkles className="w-5 h-5 lg:w-6 lg:h-6 text-primary" />
-                <span>Discover</span>
-              </h1>
-            </div>
-
             {/* Center - Search Bar */}
-            <div className="flex-1 max-w-md mx-4 sm:mx-8">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <div className="flex-1 max-w-2xl mx-4 sm:mx-8">
+              <div className="relative group">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input
                   type="text"
                   placeholder="Search people, hashtags, places..."
@@ -51,22 +43,14 @@ export default function Discover() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-                  className="pl-10 pr-4 h-10 bg-muted/50 border border-border rounded-full focus-visible:ring-1"
+                  className="pl-12 pr-4 h-12 w-full bg-white border border-gray-200 rounded-full  focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all duration-200 ease-in-out"
                 />
+
               </div>
             </div>
 
             {/* Right - Controls */}
             <div className="flex items-center space-x-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
-                className="h-8 hidden sm:flex"
-              >
-                {viewMode === "grid" ? <List className="w-4 h-4 mr-2" /> : <Grid3X3 className="w-4 h-4 mr-2" />}
-                {viewMode === "grid" ? "List" : "Grid"}
-              </Button>
               <Button variant="ghost" size="sm" onClick={() => setShowFilters(!showFilters)} className="h-8">
                 <Filter className="w-4 h-4 mr-2" />
                 Filters
@@ -77,29 +61,29 @@ export default function Discover() {
       </div>
 
       {/* Main Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-7xl mx-auto px-2 py-1">
         {/* Show hashtags and sidebar only when search is focused */}
         {isSearchFocused || searchQuery.trim() ? (
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             {/* Left Sidebar - Trending */}
             <div className="hidden lg:block w-80 shrink-0">
-              <div className="sticky top-32 space-y-6">
+              <div className="sticky top-3 space-y-4">
                 <TrendingSidebar />
-                {showFilters && <FilterPanel />}
+
               </div>
             </div>
 
             {/* Main Content with Hashtags */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 ">
               {/* Mobile Filters */}
               {showFilters && (
                 <div className="lg:hidden mb-6">
-                  <FilterPanel />
+                  <FilterPanel onClose={() => setShowFilters(false)} />
                 </div>
               )}
 
               {/* Hashtag Suggestions */}
-              <div className="mb-6">
+              <div className="">
                 <HashtagSuggestions query={searchQuery} />
               </div>
 
@@ -116,8 +100,8 @@ export default function Discover() {
           <div className="w-full">
             {/* Mobile Filters */}
             {showFilters && (
-              <div className="mb-6">
-                <FilterPanel />
+              <div className="">
+                <FilterPanel onClose={() => setShowFilters(false)} />
               </div>
             )}
 
@@ -126,6 +110,8 @@ export default function Discover() {
           </div>
         )}
       </div>
+
+      {showFilters && <FilterPanel onClose={() => setShowFilters(false)} />}
     </div>
   )
 }

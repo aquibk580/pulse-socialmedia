@@ -98,7 +98,7 @@ export default function SearchResults({ query, viewMode }: SearchResultsProps) {
 
   if (!query.trim()) {
     return (
-      <Card>
+      <Card className="border shadow-none rounded-3xl">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Recent Searches</h3>
@@ -180,7 +180,7 @@ export default function SearchResults({ query, viewMode }: SearchResultsProps) {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden lg:block space-y-8">
+      <div className="hidden lg:block space-y-4">
         {renderPeopleSection()}
         {renderHashtagsSection()}
         {renderPlacesSection()}
@@ -190,9 +190,9 @@ export default function SearchResults({ query, viewMode }: SearchResultsProps) {
 
   function renderPeopleSection() {
     return (
-      <Card>
-        <CardContent className="p-6">
-          <h4 className="text-lg font-semibold mb-4 flex items-center">
+      <Card className="border shadow-none rounded-3xl ">
+        <CardContent className="">
+          <h4 className="text-lg font-semibold  flex items-center">
             <User className="w-5 h-5 mr-2" />
             People
           </h4>
@@ -203,7 +203,7 @@ export default function SearchResults({ query, viewMode }: SearchResultsProps) {
               <div
                 key={person.id}
                 className={cn(
-                  "flex items-center justify-between p-4 hover:bg-muted rounded-lg transition-colors",
+                  "flex items-center justify-between p-4 mt-3 hover:bg-muted rounded-2xl transition-colors",
                   viewMode === "grid" && "flex-col text-center space-y-3",
                 )}
               >
@@ -213,7 +213,7 @@ export default function SearchResults({ query, viewMode }: SearchResultsProps) {
                   <img
                     src={person.avatar || "/placeholder.svg"}
                     alt={person.name}
-                    className={cn("rounded-full object-cover", viewMode === "grid" ? "w-16 h-16" : "w-12 h-12")}
+                    className={cn("rounded-full object-cover", viewMode === "grid" ? "w-20 h-20" : "w-12 h-12")}
                   />
                   <div className={cn(viewMode === "grid" && "text-center")}>
                     <div className="flex items-center space-x-1 justify-center">
@@ -266,9 +266,9 @@ export default function SearchResults({ query, viewMode }: SearchResultsProps) {
 
   function renderHashtagsSection() {
     return (
-      <Card>
-        <CardContent className="p-6">
-          <h4 className="text-lg font-semibold mb-4 flex items-center">
+      <Card className="border shadow-none rounded-3xl ">
+        <CardContent className="">
+          <h4 className="text-lg font-semibold mb-3 flex items-center">
             <Hash className="w-5 h-5 mr-2" />
             Hashtags
           </h4>
@@ -302,9 +302,9 @@ export default function SearchResults({ query, viewMode }: SearchResultsProps) {
 
   function renderPlacesSection() {
     return (
-      <Card>
-        <CardContent className="p-6">
-          <h4 className="text-lg font-semibold mb-4 flex items-center">
+      <Card className="border shadow-none rounded-3xl ">
+        <CardContent className="">
+          <h4 className="text-lg font-semibold mb-3 flex items-center">
             <MapPin className="w-5 h-5 mr-2" />
             Places
           </h4>

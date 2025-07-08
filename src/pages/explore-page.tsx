@@ -113,7 +113,7 @@ export default function ExplorePage() {
           </div>
 
           {/* Masonry Grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap- space-y-">
             {exploreItems.map((item) => (
               <div
                 key={item.id}
@@ -187,11 +187,11 @@ export default function ExplorePage() {
           <div className="relative max-w-4xl max-h-full bg-white dark:bg-gray-900 rounded-lg overflow-hidden">
             <button
               onClick={() => setSelectedItem(null)}
-              className="absolute top-4 right-4 z-10 p-2 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-colors"
+              className="absolute top-4 right-4 z-10 p-2 bg-black bg-opacity-10 text-white rounded-full hover:bg-opacity-70 transition-colors"
             >
               ×
             </button>
-            <div className="flex flex-col lg:flex-row max-h-[90vh]">
+            <div className="flex flex-co border-4 border-red-500 lg:flex-row max-h-[90vh]">
               <div className="flex-1 flex items-center justify-center bg-black">
                 <img
                   src={selectedItem.src || "/placeholder.svg"}
