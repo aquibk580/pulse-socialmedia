@@ -28,13 +28,13 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
       {/* Desktop Sidebar */}
       <div
         className={cn(
-          "hidden md:flex flex-col h-screen md:w-[28%] lg:w-[20%] border-r backdrop-blur-sm fixed top-0",
+          "hidden md:flex flex-col h-screen md:w-[28%] lg:w-[20%] border-r border-gray-100 backdrop-blur-sm fixed top-0",
           className,
         )}
       >
         {/* Logo Section */}
         <div className="py-5">
-          <h1 className="text-2xl lg:text-3xl flex items-center justify-center gap-2 font-bold text-foreground">
+          <h1 className="text-2xl lg:text-3xl flex items-center pl-12 gap-2 font-bold text-foreground">
             <LoaderPinwheel className="w-10 h-10 animate-spin hover:scale-115 text-orange-400 text-xl font-semibold" />
             <span className="">PulseUp</span>
           </h1>
@@ -56,7 +56,7 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
                           // Only show as active if we're on alexj_photo's profile
                           const shouldBeActive = isProfileRoute && isOwnProfile
                           return cn(
-                            "flex items-center space-x-3 lg:space-x-4 w-full px-4 lg:px-8 py-3 rounded-2xl transition-all duration-200",
+                            "flex items-center space-x-3 lg:space-x-4 w-full px-5 py-3 rounded-2xl transition-all duration-200",
                             shouldBeActive
                               ? "bg-foreground text-background"
                               : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
@@ -65,7 +65,7 @@ export default function LeftSidebar({ className = "" }: LeftSidebarProps) {
 
                         // Default behavior for other menu items
                         return cn(
-                          "flex items-center space-x-3 lg:space-x-4 w-full px-4 lg:px-8 py-3 rounded-2xl transition-all duration-200",
+                          "flex items-center space-x-3 lg:space-x-4 w-full px-5 py-3 rounded-2xl transition-all duration-200",
                           isActive
                             ? "bg-foreground text-background"
                             : "text-muted-foreground hover:text-foreground hover:bg-muted/50",

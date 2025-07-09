@@ -65,12 +65,12 @@ export default function SuggestionsSidebar({
     <>
       <div className="w-full bg-background/95 backdrop-blur-sm py-4 lg:p-6 space-y-1">
         {/* Top Action Buttons */}
-        <div className="flex gap-3 relative group">
+        <div className="flex gap-3 relative">
           <button
             onClick={() => setShowActivity(true)}
-            className="flex-1 flex items-center justify-center gap-2 p-3 bg-background text-foreground rounded-2xl transition-all duration-200   relative"
+            className="flex-1 flex items-center justify-center gap-2 p-3 border cursor-pointer hover:bg-gray-100 bg-background text-foreground rounded-2xl transition-all duration-200   relative"
           >
-            <Bell className="w-5 h-5  group-hover:scale-110 transition-transform" />
+            <Bell className="w-5 h-5  hover:scale-110 transition-transform" />
             <span className="text-sm font-medium ">Notifications</span>
             {notifications > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -81,7 +81,7 @@ export default function SuggestionsSidebar({
 
           <button
             onClick={handleCreateClick}
-            className="relative inline-block p-px font-semibold leading-6 text-white bg-gray-800 shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
+            className="relative inline-block group  font-semibold leading-6 text-white bg-gray-800 cursor-pointer rounded-2xl  transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
             <span
   className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
