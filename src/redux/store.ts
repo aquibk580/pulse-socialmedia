@@ -12,6 +12,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/user";
 import adminReducer from "./slices/admin";
+import postsSlice from "./slices/post";
 
 const userPersistConfig = {
   key: "user",
@@ -31,6 +32,7 @@ const adminPersistReducer = persistReducer(adminPersistConfig, adminReducer);
 const rootReducer = combineReducers({
   user: userPersistedReducer,
   admin: adminPersistReducer,
+  posts: postsSlice,
 });
 
 export const store = configureStore({
