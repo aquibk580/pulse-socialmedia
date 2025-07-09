@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Bell, Plus, User } from "lucide-react"
-import { useNavigate } from "react-router-dom" 
+import { useNavigate } from "react-router-dom"
 import type { Suggestion } from "../../types/suggestion"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { cn } from "../../lib/utils"
@@ -19,8 +19,8 @@ interface SuggestionsSidebarProps {
   }
 }
 
-export default function SuggestionsSidebar({ 
-  suggestions, 
+export default function SuggestionsSidebar({
+  suggestions,
   currentUser = {
     id: "1",
     username: "johndoe",
@@ -65,10 +65,10 @@ export default function SuggestionsSidebar({
     <>
       <div className="w-full bg-background/95 backdrop-blur-sm py-4 lg:p-6 space-y-1">
         {/* Top Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 relative group">
           <button
             onClick={() => setShowActivity(true)}
-            className="flex-1 flex items-center justify-center gap-2 p-3 bg-foreground text-white rounded-2xl transition-all duration-200   relative"
+            className="flex-1 flex items-center justify-center gap-2 p-3 bg-background text-foreground rounded-2xl transition-all duration-200   relative"
           >
             <Bell className="w-5 h-5  group-hover:scale-110 transition-transform" />
             <span className="text-sm font-medium ">Notifications</span>
@@ -78,14 +78,46 @@ export default function SuggestionsSidebar({
               </span>
             )}
           </button>
-          
+
           <button
+            onClick={handleCreateClick}
+            className="relative inline-block p-px font-semibold leading-6 text-white bg-gray-800 shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
+          >
+            <span
+  className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+></span>
+
+
+            <span className="relative z-10 block px-6 py-3 rounded-xl bg-gray-950">
+              <div className="relative z-10 flex items-center space-x-2">
+
+                <Plus className="w-5 h-5  group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-medium ">Create</span>
+                <svg
+                  className="w-6 h-6 transition-transform duration-500 group-hover:translate-x-1"
+                  data-slot="icon"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                    fill-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+            </span>
+          </button>
+
+          {/* <button
             onClick={handleCreateClick}
             className="flex-1 flex items-center justify-center gap-2 border rounded-2xl transition-all duration-200 "
           >
             <Plus className="w-5 h-5  group-hover:scale-110 transition-transform" />
             <span className="text-sm font-medium ">Create</span>
-          </button>
+          </button> */}
         </div>
 
         {/* Current User Card */}

@@ -32,7 +32,7 @@ function App() {
           <Route path="explore" element={<Discover />} />
           <Route path="messages" element={<MessagesPage />} />
           <Route path="settings" element={<SettingsPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile/:username" element={<ProfilePage />} />
           <Route path="create" element={<Create />} />
         </Route>
         <Route path="/auth/login" element={<Auth />} />

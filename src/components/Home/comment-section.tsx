@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Heart, Send, BadgeCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
 
 interface User {
@@ -25,66 +25,84 @@ interface CommentSectionProps {
   postId: string
   isVisible?: boolean
   onClose?: () => void
+  className?: string
 }
 
-export default function CommentSection({ postId, isVisible = true, onClose }: CommentSectionProps) {
+export default function CommentSection({ postId, isVisible = true, onClose, className }: CommentSectionProps) {
   const [newComment, setNewComment] = useState("")
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
+  const navigate = useNavigate()
+
   const [comments, setComments] = useState<Comment[]>([
     {
       id: "1",
       user: {
-        username: "john_doe",
+        username: "user_1",
         avatar: "/placeholder.svg?height=32&width=32",
         isVerified: false,
       },
-      content: "Amazing shot! The lighting is perfect 📸",
-      timestamp: "1h ago",
+      content: "Great content! Love this 🔥",
+      timestamp: "8h",
       likes: 12,
     },
     {
       id: "2",
       user: {
-        username: "photo_lover",
+        username: "user_2",
         avatar: "/placeholder.svg?height=32&width=32",
-        isVerified: true,
+        isVerified: false,
       },
-      content: "This is absolutely stunning! What camera did you use?",
-      timestamp: "45m ago",
+      content: "Amazing work! 👏",
+      timestamp: "7h",
       likes: 8,
     },
     {
       id: "3",
       user: {
-        username: "nature_fan",
+        username: "user_3",
         avatar: "/placeholder.svg?height=32&width=32",
         isVerified: false,
       },
-      content: "I was there last week! Such a beautiful place 🌅",
-      timestamp: "30m ago",
+      content: "This is so cool! 😍",
+      timestamp: "1h",
       likes: 5,
     },
     {
       id: "4",
       user: {
-        username: "travel_enthusiast",
+        username: "user_4",
         avatar: "/placeholder.svg?height=32&width=32",
         isVerified: false,
       },
-      content: "Would love to visit this place someday! Adding to my bucket list ✈️",
-      timestamp: "15m ago",
+      content: "Incredible! Keep it up! 💪",
+      timestamp: "8h",
       likes: 3,
     },
+    {
+      id: "5",
+      user: {
+        username: "user_5",
+        avatar: "/placeholder.svg?height=32&width=32",
+        isVerified: false,
+      },
+      content: "Stunning! 🤩✨",
+      timestamp: "5h",
+      likes: 7,
+    },
   ])
+
+  const handleProfileClick = (username: string) => {
+    navigate(`/profile/${username}`)
+  }
 
   const handleAddComment = () => {
     if (newComment.trim()) {
       const comment: Comment = {
         id: Date.now().toString(),
         user: {
-          username: "you",
+          username: "alexj_photo",
           avatar: "/placeholder.svg?height=32&width=32",
-          isVerified: false,
+          isVerified: true,
         },
         content: newComment,
         timestamp: "now",
@@ -117,30 +135,35 @@ export default function CommentSection({ postId, isVisible = true, onClose }: Co
   if (!isVisible) return null
 
   return (
-    <div className="bg-background border-t border-border/50">
+    <div className={cn("bg-background", className)}>
       {/* Comments Header */}
       <div className="px-4 py-3 border-b border-border/30">
-        <h3 className="font-semibold text-sm">Comments</h3>
+        <h3 className="font-semibold text-sm text-foreground">Comments</h3>
       </div>
 
       {/* Comments List */}
-      <ScrollArea className="h-64 px-4">
+      <div className="max-h-64 overflow-y-auto px-4">
         <div className="space-y-4 py-4">
           {comments.map((comment) => (
             <div key={comment.id} className="flex items-start space-x-3">
               <img
                 src={comment.user.avatar || "/placeholder.svg"}
                 alt={comment.user.username}
-                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                className="w-8 h-8 rounded-full object-cover flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all"
+                onClick={() => handleProfileClick(comment.user.username)}
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center space-x-1 mb-1">
-                  <span className="font-semibold text-sm">{comment.user.username}</span>
+                  <span
+                    className="font-semibold text-sm cursor-pointer hover:text-primary transition-colors"
+                    onClick={() => handleProfileClick(comment.user.username)}
+                  >
+                    {comment.user.username}
+                  </span>
                   {comment.user.isVerified && <BadgeCheck className="w-3 h-3 text-blue-500 fill-blue-100" />}
-                  <span className="text-xs text-muted-foreground">•</span>
                   <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
                 </div>
-                <p className="text-sm leading-relaxed break-words mb-2">{comment.content}</p>
+                <p className="text-sm leading-relaxed break-words mb-2 text-foreground">{comment.content}</p>
                 <div className="flex items-center space-x-4">
                   <button
                     onClick={() => handleLikeComment(comment.id)}
@@ -160,7 +183,7 @@ export default function CommentSection({ postId, isVisible = true, onClose }: Co
             </div>
           ))}
         </div>
-      </ScrollArea>
+      </div>
 
       {/* Comment Input */}
       <div className="p-4 border-t border-border/30">

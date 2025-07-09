@@ -1,6 +1,10 @@
 "use client"
 import { useState, useEffect, useCallback } from "react"
-import { Play, Heart, MessageCircle, Bookmark, MoreHorizontal } from "lucide-react"
+import type React from "react"
+
+import { useNavigate } from "react-router-dom"
+import { Play, Heart, MessageCircle, Bookmark, MoreHorizontal, BadgeCheck, X } from "lucide-react"
+import CommentSection from "../Home/comment-section"
 
 interface PostItem {
   id: number
@@ -33,18 +37,31 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
+  const [showComments, setShowComments] = useState(false)
+  const navigate = useNavigate()
 
   const POSTS_PER_PAGE = 10
   const sizePattern = ["large", "small", "small", "medium", "small", "small", "medium", "small", "medium", "small"]
 
+  // Navigate to user profile
+  const handleProfileClick = (username: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    navigate(`/profile/${username}`)
+  }
+
   // Generate posts with repeating pattern
   const generatePostBatch = (startId: number, count: number): PostItem[] => {
     const items: PostItem[] = []
+    const usernames = ["alexj_photo", "sarah_wilson", "mike_chen", "emma_davis", "john_doe", "jane_smith"]
 
     for (let i = 0; i < count; i++) {
       const id = startId + i
       const patternIndex = i % sizePattern.length
       const isVideo = Math.random() > 0.5
+      const randomUsername = usernames[Math.floor(Math.random() * usernames.length)]
 
       items.push({
         id,
@@ -61,11 +78,11 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
         views: Math.floor(Math.random() * 100000) + 5000,
         size: sizePattern[patternIndex] as "small" | "medium" | "large",
         user: {
-          username: `creator_${id}`,
+          username: randomUsername,
           avatar: `https://picsum.photos/40/40?random=${id + 100}`,
           verified: Math.random() > 0.7,
         },
-        caption: `Amazing content from creator ${id}! Check this out 🔥 #trending #explore #content`,
+        caption: `Amazing content from ${randomUsername}! Check this out 🔥 #trending #explore #content`,
       })
     }
 
@@ -150,9 +167,9 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
   return (
     <>
       <div className={`w-full ${className}`}>
-        <div className=" space-y-1.5  ">
+        <div className="space-y-1.5">
           {postBlocks.map((block, blockIndex) => (
-            <div key={blockIndex} className="grid grid-cols-4 gap-1   auto-rows-fr">
+            <div key={blockIndex} className="grid grid-cols-4 gap-1 auto-rows-fr">
               {block.map((item) => {
                 // Calculate grid spans based on size
                 const getGridSpan = () => {
@@ -181,13 +198,13 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
                 return (
                   <div
                     key={item.id}
-                    className={`relative group cursor-pointer rounded-xl   overflow-hidden   ${getGridSpan()} ${getAspectRatio()}`}
+                    className={`relative group cursor-pointer rounded-xl overflow-hidden ${getGridSpan()} ${getAspectRatio()}`}
                     onClick={() => setSelectedItem(item)}
                   >
                     <img
                       src={item.type === "video" ? item.thumbnail : item.src}
                       alt={`Content by ${item.user.username}`}
-                      className="w-full h-full object-cover transition-transform duration-300  group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
 
                     {/* Video duration overlay */}
@@ -197,6 +214,23 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
                         <span>{item.duration}</span>
                       </div>
                     )}
+
+                    {/* User info overlay */}
+                    <div className="absolute bottom-2 left-2 flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <img
+                        src={item.user.avatar || "/placeholder.svg"}
+                        alt={item.user.username}
+                        className="w-6 h-6 rounded-full border-2 border-white cursor-pointer hover:scale-110 transition-transform"
+                        onClick={(e) => handleProfileClick(item.user.username, e)}
+                      />
+                      <span
+                        className="text-white text-xs font-medium cursor-pointer hover:text-primary transition-colors"
+                        onClick={(e) => handleProfileClick(item.user.username, e)}
+                      >
+                        @{item.user.username}
+                      </span>
+                      {item.user.verified && <BadgeCheck className="w-3 h-3 text-blue-400 fill-current" />}
+                    </div>
 
                     {/* Hover overlay with stats */}
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -254,7 +288,7 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
               onClick={() => setSelectedItem(null)}
               className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
             >
-              <span className="text-lg">×</span>
+              <X className="w-5 h-5" />
             </button>
             <div className="grid grid-cols-1 lg:grid-cols-3 max-h-[95vh]">
               <div className="lg:col-span-2 flex items-center justify-center bg-black">
@@ -264,81 +298,63 @@ export default function ExploreGrid({ posts, className = "" }: PostGridProps) {
                   className="max-w-full max-h-full object-contain"
                 />
               </div>
-              <div className="p-6 overflow-y-auto bg-white">
-                <div className="flex items-center space-x-3 mb-4">
-                  <img
-                    src={selectedItem.user.avatar || "/placeholder.svg"}
-                    alt={selectedItem.user.username}
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2">
-                      <span className="font-semibold">{selectedItem.user.username}</span>
-                      {selectedItem.user.verified && (
-                        <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs">✓</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                    <MoreHorizontal className="w-5 h-5" />
-                  </button>
-                </div>
-                <p className="text-sm mb-4">{selectedItem.caption}</p>
-                <div className="flex items-center space-x-6 mb-6">
-                  <button
-                    onClick={() => toggleLike(selectedItem.id)}
-                    className="flex items-center space-x-2 hover:text-red-500 transition-colors"
-                  >
-                    <Heart
-                      className={`w-6 h-6 ${likedItems.has(selectedItem.id) ? "fill-red-500 text-red-500" : ""}`}
+              <div className="flex flex-col bg-white max-h-[95vh]">
+                {/* Post Header */}
+                <div className="p-6 border-b border-border/30">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <img
+                      src={selectedItem.user.avatar || "/placeholder.svg"}
+                      alt={selectedItem.user.username}
+                      className="w-10 h-10 rounded-full cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all"
+                      onClick={() => handleProfileClick(selectedItem.user.username)}
                     />
-                    <span className="font-medium">{formatNumber(selectedItem.likes)}</span>
-                  </button>
-                  <button className="flex items-center space-x-2 hover:text-blue-500 transition-colors">
-                    <MessageCircle className="w-6 h-6" />
-                    <span className="font-medium">{formatNumber(selectedItem.comments)}</span>
-                  </button>
-                  <button
-                    onClick={() => toggleSave(selectedItem.id)}
-                    className="hover:text-yellow-500 transition-colors"
-                  >
-                    <Bookmark
-                      className={`w-6 h-6 ${savedItems.has(selectedItem.id) ? "fill-current text-yellow-500" : ""}`}
-                    />
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  <h4 className="font-semibold">Comments</h4>
-                  <div className="space-y-4 max-h-60 overflow-y-auto">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex space-x-3">
-                        <img
-                          src={`https://picsum.photos/32/32?random=${i + 200}`}
-                          alt="Commenter"
-                          className="w-8 h-8 rounded-full"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-2">
-                            <span className="font-semibold text-sm">user_{i + 1}</span>
-                            <span className="text-xs text-gray-500">{Math.floor(Math.random() * 12) + 1}h</span>
-                          </div>
-                          <p className="text-sm text-gray-700">
-                            {
-                              [
-                                "Great content! Love this 🔥",
-                                "Amazing work! 👏",
-                                "This is so cool! 😍",
-                                "Incredible! Keep it up! 💪",
-                                "Stunning! 🤩✨",
-                              ][i]
-                            }
-                          </p>
-                        </div>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <span
+                          className="font-semibold cursor-pointer hover:text-primary transition-colors"
+                          onClick={() => handleProfileClick(selectedItem.user.username)}
+                        >
+                          {selectedItem.user.username}
+                        </span>
+                        {selectedItem.user.verified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-current" />}
                       </div>
-                    ))}
+                    </div>
+                    <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                      <MoreHorizontal className="w-5 h-5" />
+                    </button>
                   </div>
+                  <p className="text-sm mb-4">{selectedItem.caption}</p>
+                  <div className="flex items-center space-x-6">
+                    <button
+                      onClick={() => toggleLike(selectedItem.id)}
+                      className="flex items-center space-x-2 hover:text-red-500 transition-colors"
+                    >
+                      <Heart
+                        className={`w-6 h-6 ${likedItems.has(selectedItem.id) ? "fill-red-500 text-red-500" : ""}`}
+                      />
+                      <span className="font-medium">{formatNumber(selectedItem.likes)}</span>
+                    </button>
+                    <button
+                      className="flex items-center space-x-2 hover:text-blue-500 transition-colors"
+                      onClick={() => setShowComments(!showComments)}
+                    >
+                      <MessageCircle className="w-6 h-6" />
+                      <span className="font-medium">{formatNumber(selectedItem.comments)}</span>
+                    </button>
+                    <button
+                      onClick={() => toggleSave(selectedItem.id)}
+                      className="hover:text-yellow-500 transition-colors"
+                    >
+                      <Bookmark
+                        className={`w-6 h-6 ${savedItems.has(selectedItem.id) ? "fill-current text-yellow-500" : ""}`}
+                      />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Comments Section */}
+                <div className="flex-1 overflow-hidden">
+                  <CommentSection postId={selectedItem.id.toString()} isVisible={true} />
                 </div>
               </div>
             </div>
