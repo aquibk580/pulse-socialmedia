@@ -21,6 +21,8 @@ import { Calendar } from "./pages/Admin/calendar";
 import { Reports } from "./pages/Admin/reports";
 import { Messages } from "./pages/Admin/messages";
 import { Insights } from "./pages/Admin/insights";
+import FollowersPage from "./components/Profile/followers";
+import FollowingPage from "./components/Profile/Following";
 
 function App() {
   return (
@@ -33,9 +35,11 @@ function App() {
           <Route path="messages" element={<MessagesPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="profile/:username" element={<ProfilePage />} />
+          <Route path="/profile/:username/followers" element={<FollowersPage />} />
+          <Route path="/profile/:username/following" element={<FollowingPage />} />
           <Route path="create" element={<Create />} />
         </Route>
-        <Route path="/auth/login" element={<Auth />} />
+        {/* <Route path="/auth/login" element={<Auth />} /> */}
 
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>

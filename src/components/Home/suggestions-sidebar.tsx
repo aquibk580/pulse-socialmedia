@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { Bell, Plus, User } from "lucide-react"
 import { useNavigate } from "react-router-dom"
@@ -31,7 +29,6 @@ export default function SuggestionsSidebar({
   const [followedUsers, setFollowedUsers] = useState<Set<string>>(new Set())
   const [notifications, setNotifications] = useState(3)
   const [showActivity, setShowActivity] = useState(false)
-  // const router = useRouter()
 
   const handleFollow = (userId: string) => {
     setFollowedUsers((prev) => {
@@ -45,11 +42,9 @@ export default function SuggestionsSidebar({
     })
   }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const handleCreateClick = () => {
     navigate("/create")
-    // This will navigate to the Create page
-    // You can also implement a modal or other UI for creating content
   }
 
   const categories = [
@@ -63,15 +58,15 @@ export default function SuggestionsSidebar({
 
   return (
     <>
-      <div className="w-full bg-background/95 backdrop-blur-sm py-4 lg:p-6 space-y-1">
+      <div className="w-full bg-background/95 backdrop-blur-sm p-4 lg:p-6 space-y-4">
         {/* Top Action Buttons */}
         <div className="flex gap-3 relative">
           <button
             onClick={() => setShowActivity(true)}
-            className="flex-1 flex items-center justify-center gap-2 p-3 border cursor-pointer hover:bg-gray-100 bg-background text-foreground rounded-2xl transition-all duration-200   relative"
+            className="flex-1 flex items-center justify-center gap-2 p-3 border cursor-pointer hover:bg-gray-100 bg-background text-foreground rounded-2xl transition-all duration-200 relative"
           >
-            <Bell className="w-5 h-5  hover:scale-110 transition-transform" />
-            <span className="text-sm font-medium ">Notifications</span>
+            <Bell className="w-5 h-5 hover:scale-110 transition-transform" />
+            <span className="text-sm font-medium">Notifications</span>
             {notifications > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {notifications}
@@ -81,18 +76,13 @@ export default function SuggestionsSidebar({
 
           <button
             onClick={handleCreateClick}
-            className="relative inline-block group  font-semibold leading-6 text-white bg-gray-800 cursor-pointer rounded-2xl  transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
+            className="relative inline-block group font-semibold leading-6 text-white bg-gray-800 cursor-pointer rounded-2xl transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
           >
-            <span
-  className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-></span>
-
-
+            <span className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
             <span className="relative z-10 block px-6 py-3 rounded-xl bg-gray-950">
               <div className="relative z-10 flex items-center space-x-2">
-
-                <Plus className="w-5 h-5  group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-medium ">Create</span>
+                <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-medium">Create</span>
                 <svg
                   className="w-6 h-6 transition-transform duration-500 group-hover:translate-x-1"
                   data-slot="icon"
@@ -102,27 +92,19 @@ export default function SuggestionsSidebar({
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                     d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                   ></path>
                 </svg>
               </div>
             </span>
           </button>
-
-          {/* <button
-            onClick={handleCreateClick}
-            className="flex-1 flex items-center justify-center gap-2 border rounded-2xl transition-all duration-200 "
-          >
-            <Plus className="w-5 h-5  group-hover:scale-110 transition-transform" />
-            <span className="text-sm font-medium ">Create</span>
-          </button> */}
         </div>
 
         {/* Current User Card */}
         <Card className="border-b shadow-none rounded-none">
-          <CardContent className="">
+          <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <div className="relative">
                 <img
@@ -137,7 +119,7 @@ export default function SuggestionsSidebar({
                 <p className="text-xs text-muted-foreground truncate">@{currentUser.username}</p>
               </div>
               <button className="px-2.5 py-1.5 flex items-center gap-1 text-xs bg-muted/50 rounded-full transition-colors">
-                <User className="w-5 h-5 text-muted-foreground" />
+                <User className="w-4 h-4 text-muted-foreground" />
                 <span>Private</span>
               </button>
             </div>
@@ -149,11 +131,11 @@ export default function SuggestionsSidebar({
           <CardHeader className="pb-3">
             <CardTitle className="text-xl">Suggestions</CardTitle>
           </CardHeader>
-          <CardContent className="pt-0 ">
-            <div className="space-y-3 ">
+          <CardContent className="pt-0">
+            <div className="space-y-3">
               {suggestions.slice(0, 5).map((suggestion) => (
-                <div key={suggestion.id} className="flex items-center justify-between  pb-1">
-                  <div className="flex items-center space-x-3 min-w-0  flex-1">
+                <div key={suggestion.id} className="flex items-center justify-between pb-1">
+                  <div className="flex items-center space-x-3 min-w-0 flex-1">
                     <img
                       src={suggestion.avatar || "/placeholder.svg"}
                       alt={`${suggestion.fullName} profile`}
@@ -175,7 +157,7 @@ export default function SuggestionsSidebar({
                       "px-3 py-1.5 rounded-full cursor-pointer text-xs font-medium transition-all duration-200 shrink-0 ml-2",
                       followedUsers.has(suggestion.id)
                         ? "bg-muted text-muted-foreground hover:bg-muted/80"
-                        : "bg-foreground text-background hover:bg-foreground/90 ",
+                        : "bg-foreground text-background hover:bg-foreground/90",
                     )}
                   >
                     {followedUsers.has(suggestion.id) ? "Following" : "Follow"}
@@ -188,7 +170,7 @@ export default function SuggestionsSidebar({
 
         {/* Categories */}
         <Card className="border-none shadow-none rounded-none">
-          <CardHeader className="pb-">
+          <CardHeader className="pb-3">
             <CardTitle className="text-lg">Explore Categories</CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
@@ -196,7 +178,7 @@ export default function SuggestionsSidebar({
               {categories.map((category, index) => (
                 <div
                   key={index}
-                  className="p-3 flex items-center justify-center flex-col rounded-3xl px-4 cursor-pointer transition-all duration-200  bg-muted hover:bg-muted/80"
+                  className="p-3 flex items-center justify-center flex-col rounded-3xl px-4 cursor-pointer transition-all duration-200 bg-muted hover:bg-muted/80"
                 >
                   <div className="text-xl mb-2">{category.icon}</div>
                   <p className="text-sm font-medium text-foreground truncate">{category.name}</p>

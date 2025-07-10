@@ -1,9 +1,8 @@
-"use client"
-
 import type React from "react"
 
 import { useState } from "react"
 import { AnimatePresence } from "framer-motion"
+
 import { cn } from "@/lib/utils"
 import { LoginForm } from "./login-form"
 import { SignupForm } from "./signup-form"

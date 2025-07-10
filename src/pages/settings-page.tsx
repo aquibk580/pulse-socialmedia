@@ -69,7 +69,7 @@ export default function SettingsPage() {
   return (
     <div className="flex-1 pt-20 pb-20 md:pb-8">
       <div className="w-full px-4">
-        <div className="md:ml-64 lg:mr-80 max-w-2xl mx-auto space-y-6">
+        <div className=" max-w-3xl mx-auto space-y-6">
           {/* Settings Header */}
           <Card className="border-0 shadow-lg bg-gradient-to-br from-card to-muted/20">
             <CardHeader>

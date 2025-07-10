@@ -6,10 +6,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-// import { useTheme } from '@/components/theme-provider';
-import { useTheme } from './theme-provider';
+
+import { useTheme } from '@/contexts/theme-context';
+
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <DropdownMenu>
@@ -21,16 +22,30 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
+        <DropdownMenuItem onClick={toggleTheme}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
+        <DropdownMenuItem onClick={toggleTheme}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
+        {/* <DropdownMenuItem onClick={() => setTheme('system')}>
           System
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
+{/* <button
+                  onClick={toggleTheme}
+                  className={cn(
+                    "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
+                    theme === "dark" ? "bg-foreground" : "bg-muted",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "inline-block h-4 w-4 transform rounded-full bg-background transition-transform shadow-lg",
+                      theme === "dark" ? "translate-x-6" : "translate-x-1",
+                    )}
+                  />
+                </button> */}

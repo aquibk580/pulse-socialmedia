@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import SocialPost from "./social-post"
 import StoriesSection from "./stories-section"
 import type { Post } from "../../types/post"
@@ -14,6 +14,7 @@ export default function SocialFeed({ posts }: SocialFeedProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
+  const feedRef = useRef<HTMLDivElement>(null)
 
   const POSTS_PER_PAGE = 10
 
@@ -58,25 +59,29 @@ export default function SocialFeed({ posts }: SocialFeedProps) {
 
   // Initial load
   useEffect(() => {
-    if (posts.length > 0) {
+    if (posts.length > 0 && currentPage === 0) {
       loadMorePosts()
     }
-  }, [posts])
+  }, [posts, currentPage, loadMorePosts])
 
-  // Scroll event handler
+  // Scroll event handler for infinite scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1000) {
+      // Check if we're near the bottom of the page
+      if (
+        window.innerHeight + document.documentElement.scrollTop >= 
+        document.documentElement.offsetHeight - 1000
+      ) {
         loadMorePosts()
       }
     }
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [loadMorePosts])
 
   return (
-    <div className="w-full py-4 md:py-6">
+    <div ref={feedRef} className="w-full py-4 md:py-6">
       <StoriesSection />
 
       <div className="space-y-4">

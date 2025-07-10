@@ -1,4 +1,3 @@
-"use client"
 
 import { Grid3X3, ImageIcon, Video, Tag, User, Bookmark } from "lucide-react"
 import { cn } from "../../lib/utils"

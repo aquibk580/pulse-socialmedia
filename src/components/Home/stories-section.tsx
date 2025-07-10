@@ -64,17 +64,22 @@ export default function StoriesSection() {
 
   return (
     <>
-      <div className="px-4 pb-4">
+      <div className=" relative px-4 pb-4">
+        {/* Left blur overlay */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white dark:from-black to-transparent" />
+
+        {/* Right blur overlay */}
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white dark:from-black to-transparent" />
+
         <div className="flex gap-3 py-4 px-4  overflow-x-auto scrollbar-hide pb-1">
           {userStories.map((userStory, index) => (
             <div key={userStory.userId} className="shrink-0 w-24   group">
               <div
                 onClick={() => handleStoryClick(index)}
-                className={`relative h-32 w-full rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300    ${
-                  userStory.isViewed
-                    ? "ring-2 ring-muted-foreground/30"
-                    : "ring-2 ring-transparent bg-gradient-to-tr from-pink-600 via-orange-500 to-yellow-300 p-0.5"
-                }`}
+                className={`relative h-32 w-full rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300    ${userStory.isViewed
+                  ? "ring-2 ring-muted-foreground/30"
+                  : "ring-2 ring-transparent bg-gradient-to-tr from-pink-600 via-orange-500 to-yellow-300 p-0.5"
+                  }`}
               >
                 <div
                   className="w-full h-full rounded-2xl bg-cover bg-center transition-transform duration-300 "
