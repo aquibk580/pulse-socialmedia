@@ -23,6 +23,7 @@ import { Messages } from "./pages/Admin/messages";
 import { Insights } from "./pages/Admin/insights";
 import FollowersPage from "./components/Profile/followers";
 import FollowingPage from "./components/Profile/Following";
+import GamePage from "./pages/Games";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/profile/:username/following" element={<FollowingPage />} />
           <Route path="create" element={<Create />} />
         </Route>
+        <Route path="/games" element={<GamePage />} />
         {/* <Route path="/auth/login" element={<Auth />} /> */}
 
         {/* Admin Routes */}

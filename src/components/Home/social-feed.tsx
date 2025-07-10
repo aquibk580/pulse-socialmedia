@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import SocialPost from "./social-post"
 import StoriesSection from "./stories-section"
 import type { Post } from "../../types/post"
-
+import ModernGameGallery from "@/pages/modern-game-gallery"
 interface SocialFeedProps {
   posts: Post[]
 }

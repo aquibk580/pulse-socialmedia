@@ -48,12 +48,12 @@ export default function SuggestionsSidebar({
   }
 
   const categories = [
-    { name: "Photography", icon: "📸" },
-    { name: "Travel", icon: "✈️" },
-    { name: "Food", icon: "🍕" },
-    { name: "Tech", icon: "💻" },
-    { name: "Music", icon: "🎵" },
-    { name: "Art", icon: "🎨" },
+    { name: "Games", icon: "🎮", nav: "/games" },
+    { name: "Travel", icon: "✈️", nav: "/discover/travel" },
+    { name: "Food", icon: "🍕", nav: "/discover/food" },
+    { name: "Tech", icon: "💻", nav: "/discover/tech" },
+    { name: "Music", icon: "🎵", nav: "/discover/music" },
+    { name: "Art", icon: "🎨", nav: "/discover/art" },
   ]
 
   return (
@@ -179,6 +179,7 @@ export default function SuggestionsSidebar({
                 <div
                   key={index}
                   className="p-3 flex items-center justify-center flex-col rounded-3xl px-4 cursor-pointer transition-all duration-200 bg-muted hover:bg-muted/80"
+                  onClick={() => navigate(category.nav || "#")}
                 >
                   <div className="text-xl mb-2">{category.icon}</div>
                   <p className="text-sm font-medium text-foreground truncate">{category.name}</p>
