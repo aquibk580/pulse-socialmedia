@@ -65,25 +65,25 @@ export default function StoriesSection() {
   return (
     <>
       <div className="px-4 pb-4">
-        <div className="flex gap-3 py-4 px-4 overflow-x-auto scrollbar-hide pb-1">
+        <div className="flex gap-3 py-4 px-4  overflow-x-auto scrollbar-hide pb-1">
           {userStories.map((userStory, index) => (
-            <div key={userStory.userId} className="shrink-0 w-24 group">
+            <div key={userStory.userId} className="shrink-0 w-24   group">
               <div
                 onClick={() => handleStoryClick(index)}
-                className={`relative h-32 w-full rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[1.05] shadow-lg hover:shadow-xl ${
+                className={`relative h-32 w-full rounded-2xl overflow-hidden cursor-pointer transform transition-all duration-300    ${
                   userStory.isViewed
                     ? "ring-2 ring-muted-foreground/30"
                     : "ring-2 ring-transparent bg-gradient-to-tr from-pink-600 via-orange-500 to-yellow-300 p-0.5"
                 }`}
               >
                 <div
-                  className="w-full h-full rounded-2xl bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-full rounded-2xl bg-cover bg-center transition-transform duration-300 "
                   style={{
                     backgroundImage: `url(${userStory.stories[0].image})`,
                   }}
                 >
                   {/* Profile Picture - moved away from border */}
-                  <div className="absolute top-3 left-3 transform transition-all duration-300 group-hover:scale-110">
+                  <div className="absolute top-3 left-3 transform transition-all duration-300 ">
                     <div className="w-7 h-7 rounded-full ring-2 ring-white overflow-hidden shadow-md">
                       <img
                         src={userStory.avatar || "/placeholder.svg"}

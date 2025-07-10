@@ -14,7 +14,7 @@ export default function Home() {
       </div>
 
       {/* Right Sidebar - Suggestions (Desktop only) */}
-      <div className="hidden xl:block w-80 2xl:w-96 shrink-0">
+      <div className="hidden xl:block w-80 2xl:w-[400px] border border-gray-100 shrink-0">
         <div className="sticky top-0 h-screen overflow-y-auto">
           <SuggestionsSidebar suggestions={suggestionsData} />
         </div>

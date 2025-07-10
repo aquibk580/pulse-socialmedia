@@ -12,7 +12,7 @@ export default function HomeLayout() {
                     <LeftSidebar />
                 </div>
 
-                <main className="flex-1 min-w-0 pb-16 md:pb-0">
+                <main className="flex-1 min-w-0 pb-15 md:pb-0">
                     {" "}
                     <div className="max-w-full mx-auto">
                         <Outlet />
