@@ -10,17 +10,17 @@ import Create from "./pages/Create";
 import Discover from "./pages/discover";
 import Auth from "./pages/Auth";
 
-import AdminLayout from "./layouts/AdminLayout";
-import AnalyticsPage from "./pages/Admin/Analytics/Growth";
-import ContentPage from "./pages/Admin/Content/Posts";
-import ReportsPage from "./pages/Admin/Reports/Content";
-import SecurityPage from "./pages/Admin/Security/Logins";
-import AdminSettingsPage from "./pages/Admin/Settings/General";
-import FeedbackPage from "./pages/Admin/Support/Feedback";
-import NotificationsPage from "./pages/Admin/Notification";
-import RolesPage from "./pages/Admin/Roles";
-import UsersPage from "./pages/Admin/Users";
-import DashboardPage from "./pages/Admin/Dashboard";
+import { AdminLayout } from "./layouts/AdminLayout";
+import { Dashboard } from "./pages/Admin/dashboard";
+import { Analytics } from "./pages/Admin/analytics";
+import { Users } from "./pages/Admin/users";
+import { Orders } from "./pages/Admin/orders";
+import { Products } from "./pages/Admin/products";
+import { Settings } from "./pages/Admin/settings";
+import { Calendar } from "./pages/Admin/calendar";
+import { Reports } from "./pages/Admin/reports";
+import { Messages } from "./pages/Admin/messages";
+import { Insights } from "./pages/Admin/insights";
 
 function App() {
   return (
@@ -36,23 +36,21 @@ function App() {
           <Route path="create" element={<Create />} />
         </Route>
         <Route path="/auth/login" element={<Auth />} />
-        {/* <Route path="/create" element={<CreateLayout />}>
-          </Route> */}
 
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="analytics/growth" element={<AnalyticsPage />} />
-          <Route path="content/posts" element={<ContentPage />} />
-          <Route path="reports/content" element={<ReportsPage />} />
-          <Route path="security/logins" element={<SecurityPage />} />
-          <Route path="settings/general" element={<AdminSettingsPage />} />
-          <Route path="support/feedback" element={<FeedbackPage />} />
-          <Route path="notifications" element={<NotificationsPage />} />
-          <Route path="users/roles" element={<RolesPage />} />
-          <Route path="users" element={<UsersPage />} />
-          {/* Add more admin routes as needed */}
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="users" element={<Users />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="products" element={<Products />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="messages" element={<Messages />} />
+          <Route path="calendar" element={<Calendar />} />
+          <Route path="insights" element={<Insights />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
-          {/* Define admin routes here */}
       </Routes>
     </Router>
   );
